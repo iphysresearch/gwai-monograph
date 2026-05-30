@@ -85,6 +85,15 @@ if [ -d assets ]; then
   mkdir -p "$OUTDIR/assets"
   cp -f assets/* "$OUTDIR/assets/" 2>/dev/null || true
 fi
+# 成书 PDF（首页“下载 PDF”链接指向 site 根目录的 book_main.pdf）
+if [ -f book_main.pdf ]; then
+  cp -f book_main.pdf "$OUTDIR/book_main.pdf"
+fi
+
+echo "==> 后处理：目录折叠为 部/章(可展开)/节 结构"
+if [ -f "$OUTDIR/${SRC}.html" ]; then
+  python3 postprocess_toc.py "$OUTDIR/${SRC}.html" || echo "⚠️  目录后处理失败（不影响其它内容）"
+fi
 
 echo "==> 生成 index.html（跳转到目录页）"
 # tex4ht 按章拆分时，主文件 book_html.html 即目录页。

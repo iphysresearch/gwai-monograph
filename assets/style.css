@@ -130,3 +130,96 @@ sup a, .footnote-mark { font-size: .75em; }
 /* ---- 预渲染 TikZ 示意图 ---- */
 .tikz-figure { text-align: center; margin: 1.2em 0; }
 .tikz-figure img { max-width: 96%; height: auto; display: inline-block; }
+
+/* ---- 封面区 ---- */
+.cover { margin: 0 0 2.4em; text-align: center; }
+.cover-banner {
+  width: 100%; max-width: 100%; height: auto; display: block;
+  border-radius: 10px;
+  box-shadow: 0 6px 24px rgba(0,0,0,.28);
+  margin: 0 auto .9em;
+}
+.cover-meta {
+  display: flex; align-items: center; justify-content: center;
+  gap: .7em; margin: .2em 0 1.1em;
+}
+.cover-author {
+  font-size: 1.15em; font-weight: 700; letter-spacing: .15em;
+  color: var(--ink);
+}
+.cover-badge {
+  font-size: .72em; font-weight: 600; letter-spacing: .05em;
+  color: #fff; background: var(--qing);
+  padding: .12em .7em; border-radius: 999px;
+  transform: translateY(-1px);
+}
+.cover-actions {
+  display: flex; flex-wrap: wrap; gap: .7em;
+  justify-content: center; margin: 0 0 .9em;
+}
+.cover-actions .btn {
+  display: inline-block; text-decoration: none;
+  font-size: .92em; font-weight: 600;
+  padding: .5em 1.25em; border-radius: 8px;
+  border: 1.5px solid var(--qing);
+  color: var(--qing); background: transparent;
+  transition: background .15s, color .15s, transform .1s;
+}
+.cover-actions .btn:hover { background: rgba(26,127,118,.1); transform: translateY(-1px); }
+.cover-actions .btn-primary { background: var(--qing); color: #fff; }
+.cover-actions .btn-primary:hover { background: var(--qing-light); color: #fff; }
+.cover-ver { font-size: .8em; color: var(--muted); }
+
+@media (max-width: 640px) {
+  .cover-actions .btn { padding: .45em 1em; font-size: .85em; }
+}
+@media (prefers-color-scheme: dark) {
+  .cover-banner { opacity: 1; box-shadow: 0 6px 24px rgba(0,0,0,.5); }
+  .cover-actions .btn:hover { background: rgba(38,166,154,.18); }
+}
+
+/* ---- 按钮内小字注释（如 PDF 大小）---- */
+.btn-note { font-size: .78em; font-weight: 400; opacity: .8; margin-left: .15em; }
+
+/* ---- 本书简介 ---- */
+.intro {
+  max-width: 100%; margin: 0 auto 2em; padding: 1.1em 1.4em;
+  background: rgba(26,127,118,.05);
+  border-left: 4px solid var(--qing); border-radius: 0 8px 8px 0;
+}
+.intro-h { margin: 0 0 .5em; font-size: 1.15em; color: var(--qing); border: none; }
+.intro p { margin: .4em 0; font-size: .95em; line-height: 1.8; }
+.intro-aud { color: var(--muted); font-size: .88em; }
+
+/* ---- 页脚多行 ---- */
+.foot-main { margin: .2em 0; font-weight: 600; color: var(--ink); }
+.foot-sub { margin: .2em 0; font-size: .92em; }
+
+@media (prefers-color-scheme: dark) {
+  .intro { background: rgba(38,166,154,.08); }
+}
+
+/* ---- 可折叠目录 ---- */
+.tableofcontents { line-height: 1.7; }
+.toc-part {
+  font-weight: 700; font-size: 1.08em; color: var(--qing);
+  margin: 1.1em 0 .4em; padding-bottom: .25em;
+  border-bottom: 1px solid var(--rule);
+}
+.toc-other { margin: .35em 0; font-weight: 600; }
+details.toc-chap { margin: .25em 0; }
+details.toc-chap > summary {
+  cursor: pointer; list-style: none; font-weight: 600;
+  padding: .2em 0; outline: none;
+}
+details.toc-chap > summary::-webkit-details-marker { display: none; }
+details.toc-chap > summary::before {
+  content: "▸"; color: var(--qing); display: inline-block;
+  width: 1em; transition: transform .15s;
+}
+details.toc-chap[open] > summary::before { transform: rotate(90deg); }
+.toc-secs { margin: .1em 0 .5em 1.6em; }
+.toc-sec { margin: .18em 0; font-size: .92em; }
+.toc-sec a { color: var(--ink); }
+.toc-sec a:hover { color: var(--qing); }
+.toc-orphan { margin-left: 1.6em; }

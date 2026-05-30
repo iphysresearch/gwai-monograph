@@ -63,6 +63,10 @@
 \hournow=\time \divide\hournow by 60
 \minutenow=\time \tmpmin=\hournow \multiply\tmpmin by 60
 \advance\minutenow by -\tmpmin
+% 预先把版本号完整展开成纯文本字符串，避免在 \HCode 里展开时
+% 被 tex4ht 注入 \special/\relax 等内部命令而乱码。
+\edef\buildstamp{\the\year-\twodigit\month-\twodigit\day\space
+  \twodigit\hournow:\twodigit\minutenow}
 
 %% ================================================================
 %% 兼容性兜底：正文片段里残留的“印刷版专用”命令在 HTML 下安全降级。
@@ -102,15 +106,40 @@
 %% ================================================================
 \begin{document}
 
-%% ---- 书名页（HTML 版简洁标题，替代精美封面）------------------
-\begin{center}
-  {\zihao{1}\bfseries 引力波数据分析中的人工智能方法}\\[0.8em]
-  {\zihao{3} 从信号识别到模拟推断的系统研究}\\[1.5em]
-  {\zihao{4} 王\quad 赫}\\[1.2em]
-  {\zihao{-4} 初稿}\\[0.3em]
-  {\zihao{-5} 编译版本：\the\year-\twodigit\month-\twodigit\day\ \twodigit\hournow:\twodigit\minutenow}
-\end{center}
-\vspace{2em}
+%% ---- 书名页（HTML 版：封面横条图 + 信息 + 操作链接）----------
+% 用 \HCode 直接输出结构化 HTML（封面图含中英文标题），配合
+% assets/style.css 中的 .cover-* 样式美化。
+\ifdefined\HCode
+  \HCode{<div class="cover">}%
+  \HCode{<img class="cover-banner" src="figures/cover_banner.png" alt="引力波数据分析中的人工智能方法" />}%
+  \HCode{<div class="cover-meta"><span class="cover-author">王赫</span>}%
+  \HCode{<span class="cover-badge">初稿</span></div>}%
+  \HCode{<div class="cover-actions">}%
+  \HCode{<a class="btn btn-primary" href="book_html.html">开始阅读</a>}%
+  \HCode{<a class="btn" href="book_main.pdf">下载 PDF <span class="btn-note">约 18 MB</span></a>}%
+  \HCode{<a class="btn" href="https://github.com/iphysresearch/gwai-monograph">GitHub 仓库</a>}%
+  \HCode{</div>}%
+  \HCode{<div class="cover-ver">编译版本：\buildstamp</div>}%
+  \HCode{</div>}%
+  % 本书简介（着陆页引导）
+  \HCode{<div class="intro"><h2 class="intro-h">本书简介</h2>}%
+  \HCode{<p>本书系统梳理人工智能方法在引力波数据分析中的应用，}%
+  \HCode{从信号识别、参数估计到模拟推断，构建物理驱动与数据驱动相融合的}%
+  \HCode{方法论体系。全书分为五个部分、共十二章，逻辑递进地呈现从经典方法的}%
+  \HCode{局限，到机器学习、生成模型与模拟推断、智能化搜索，再到空间引力波}%
+  \HCode{探测前沿挑战与展望的完整脉络。</p>}%
+  \HCode{<p class="intro-aud">适合引力波数据分析、机器学习与 AI for Science}%
+  \HCode{方向的研究生、研究者与工程师阅读；不要求引力波物理专业背景。</p>}%
+  \HCode{</div>}%
+\else
+  \begin{center}
+    {\zihao{1}\bfseries 引力波数据分析中的人工智能方法}\\[0.8em]
+    {\zihao{3} 从信号识别到模拟推断的系统研究}\\[1.5em]
+    {\zihao{4} 王\quad 赫}\\[1.2em]
+    {\zihao{-4} 初稿}
+  \end{center}
+  \vspace{2em}
+\fi
 
 %% ---- 目录 ------------------------------------------------------
 \tableofcontents
