@@ -1,0 +1,470 @@
+%% ============================================================
+%% 引力波数据分析中的人工智能方法
+%% 基于 Fancy_page_book_design 模板
+%% 主编译文件：book_main.tex
+%% 编译命令：tectonic -Z continue-on-errors book_main.tex
+%%
+%% ---- 页眉页脚样式开关 ----------------------------------------
+%% 取消注释下面一行以启用彩色页眉页脚（默认：启用）
+%% 注释掉下面一行以使用简洁黑白页眉页脚（适合提交审稿）
+% \def\fancyheadfooter{}   % 定义此命令 = 启用彩色页眉页脚
+%% ============================================================
+%% ============================================================
+\documentclass[zihao=-4,fontset=none,twoside,openright]{ctexbook}
+
+%% ---- 模板核心包 ------------------------------------------------
+\usepackage{stys/Titlepage}          % 精美封面
+\usepackage[dvipsnames,svgnames,x11names,table]{xcolor}
+\definecolor{nuanbai}{HTML}{F5F5F5}
+\pagecolor{nuanbai!10}
+
+%% ---- 数学 ------------------------------------------------------
+\usepackage{amsmath,amssymb,amsthm}
+
+%% ---- 字体（ctexbook fontset=none 需手动设置）--------------------
+% fontspec 由 Titlepage.sty 已加载，Titlepage.sty 也设置了 \setmainfont
+% 关键：在 Titlepage 之后显式覆盖 CJK 字体，防止 Times New Roman 渗入汉字
+% \setCJKmainfont 必须在导言区（非 \AtBeginDocument）中调用
+% Language=Chinese Simplified 强制使用简体字形，避免繁体字出现
+\setCJKmainfont{Songti SC}[
+  BoldFont   = {Songti SC Bold},
+  ItalicFont = {STKaiti},
+  Language   = Chinese Simplified]
+\setCJKsansfont{PingFang SC}[
+  BoldFont   = {PingFang SC},
+  Language   = Chinese Simplified]
+\setCJKmonofont{STFangsong}[
+  Language   = Chinese Simplified]
+
+%% ---- 页面布局 --------------------------------------------------
+\usepackage[left=2.5cm,right=2cm,top=1cm,bottom=3.5cm,
+            includehead,includefoot]{geometry}
+
+%% ---- 页眉页脚（改用 fancyhdr，与 ctexbook 兼容性更好）----------
+\usepackage{fancyhdr}
+\usepackage{emptypage}  % 空白页不显示页眉页脚
+
+%% ---- 章节标题（使用模板的 titlesec）----------------------------
+% 注意：去掉 pagestyles 选项，避免 titlesec 覆盖 scrlayer-scrpage 的页脚设置
+\usepackage[explicit,clearempty,newparttoc]{titlesec}
+\usepackage{titletoc}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+
+%% ---- 链接 ------------------------------------------------------
+\usepackage{hyperref}
+\hypersetup{hidelinks,
+  pdfauthor={王赫},
+  pdftitle={引力波数据分析中的人工智能方法}}
+
+%% ---- 图标与装饰 ------------------------------------------------
+% fontawesome5 在 tectonic 下有已知的大字体文件加载问题，改用文字替代
+% \usepackage{fontawesome5}
+\newcommand{\faBook}{{\normalfont\textbf{[Book]}}}  % 简单替代
+\usepackage{tikz}
+\usetikzlibrary{calc,shapes.geometric,shapes.misc,
+  arrows.meta,positioning,fit,backgrounds,
+  decorations.pathreplacing,decorations.pathmorphing,
+  patterns,fadings}
+
+%% ---- TcolorBox -------------------------------------------------
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{breakable,skins,theorems}
+
+%% ---- 表格 ------------------------------------------------------
+\usepackage{tabularx,booktabs,colortbl,array}
+% tabularray requires newer bundle, replaced with standard tables
+% \usepackage{tabularray}
+\usepackage{longtable}
+\usepackage{booktabs}
+
+%% ---- 装饰花纹 --------------------------------------------------
+\usepackage{pgfornament}
+
+%% ---- 中文数字 --------------------------------------------------
+\usepackage{zhnumber}
+
+%% ---- 辅助包 ----------------------------------------------------
+\usepackage{lastpage}
+\usepackage{varwidth}
+% ninecolors 需要较新 texlive bundle，暂时禁用（xcolor 已覆盖大部分功能）
+% \usepackage{ninecolors}
+\usepackage{adjustbox}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{indentfirst}
+\usepackage{setspace}
+\usepackage{emptypage}
+\usepackage{endnotes}
+\usepackage{etoolbox}
+\usepackage{subcaption}
+\DeclareCaptionFont{xiaowu}{\zihao{-5}}
+\captionsetup[figure]{font=xiaowu}
+\captionsetup[subfigure]{font=xiaowu}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{subfiles}
+
+%% ---- PGFPlots --------------------------------------------------
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{pgfplots.fillbetween}
+
+%% ---- 参考文献（每部独立） ---------------------------------------
+% numbers: [1] 数字编号格式；sort&compress: [1,3-5] 压缩连续编号；square: 方括号
+\usepackage[sectionbib,numbers,sort&compress,square]{natbib}
+\usepackage[sectionbib]{chapterbib}
+% 参考文献列表格式：紧凑小字号，减少条目间距
+\setlength{\bibsep}{2pt}
+\renewcommand{\bibfont}{\small}
+
+%% ---- PGF 图层 --------------------------------------------------
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfdeclarelayer{top}
+\pgfdeclarelayer{bottom}
+\pgfsetlayers{bottom,background,main,foreground,top}
+
+%% ---- 待补图占位 --------------------------------------------------
+\newcommand{\missingfigureplaceholder}[2]{%
+  \begin{tikzpicture}
+    \node[
+      draw=gray!55,
+      dashed,
+      rounded corners=3pt,
+      fill=gray!6,
+      minimum width=0.88\textwidth,
+      minimum height=#1,
+      align=center,
+      inner sep=10pt
+    ] {%
+      \textbf{待补图}\\[0.6em]
+      \begin{minipage}{0.78\textwidth}
+        \centering\zihao{-5}#2
+      \end{minipage}
+    };
+  \end{tikzpicture}%
+}
+
+%% ================================================================
+%% 页眉设计（来自模板 book.tex）
+%% ================================================================
+\definecolor{qing}{HTML}{26A69A}
+
+\makeatletter
+\newcommand*\footimage[1]{\def\@footimage{#1}}
+\newcommand*\foottext[1]{\def\@foottext{#1}}
+\newcommand*\foottheme[1]{\def\@foottheme{#1}}
+
+% 初始化页脚变量（避免首页报错）
+\footimage{figures/newton.jpg}
+\foottext{}
+\foottheme{引力波·人工智能}
+
+%% ================================================================
+%% 页眉页脚样式（根据 \fancyheadfooter 开关选择彩色或简洁版本）
+%% ================================================================
+\ifdefined\fancyheadfooter
+  %% ---- 彩色页眉（启用时）--------------------------------------
+  \newcommand{\pageheadstyle}{%
+    \begin{tikzpicture}[remember picture,overlay]
+      \fill[qing!15] (current page.north west)
+        rectangle ([yshift=-\headheight]current page.north east);
+      \coordinate (head decoration) at
+        ([shift={(0,-.6\headheight)}]current page.north);
+      \node[] at (head decoration) {%
+        \pgfornament[height=1.6cm,width=3.5cm,color=qing!20!black,
+          opacity=0.5]{78}%
+        \hspace{.72\linewidth}%
+        \pgfornament[height=1.6cm,width=3.5cm,color=qing!20!black,
+          symmetry=v,symmetry=h,opacity=0.5]{79}};
+      \node[text=black,font=\rmfamily\small] at
+        ([shift={(-.2\headheight,-.05\headheight)}]head decoration)
+        {\begin{varwidth}{.72\linewidth}%
+          \ifodd\value{page}\rightmark\else\leftmark\fi%
+         \end{varwidth}};
+    \end{tikzpicture}%
+  }
+  %% ---- 彩色页脚（启用时）--------------------------------------
+  \setlength{\footskip}{50pt}
+  \newcommand{\footstyle}{%
+    \begin{tikzpicture}[remember picture,overlay]
+      \def\Backcolor{qing}
+      \fill[\Backcolor!25]
+        ([xshift=0cm]current page.south west)
+        rectangle ([yshift=3cm]current page.south east);
+      \fill[\Backcolor!50]
+        ([xshift=0cm,yshift=1cm]current page.south west)
+        --++(0,2)--++(2,0)--cycle;
+      \fill[\Backcolor!50]
+        ([xshift=-2cm]current page.south east)
+        --++(2,0)--++(0,2)--cycle;
+      \node[anchor=west] at ([shift={(0.2,1.5)}]current page.south west)
+        {\includegraphics[width=1.8cm,height=2.4cm]{\@footimage}};
+      \node[font=\upshape\bfseries,text=white,rectangle,rounded corners,
+        fill=\Backcolor!50] at ([shift={(-0.5,0.5)}]current page.south east)
+        {\thepage};
+      \node[anchor=north west] at ([shift={(2.3,2.8)}]current page.south west)
+      {%
+        \begin{minipage}{\dimexpr\paperwidth-4.5cm\relax}
+          \textcolor{\Backcolor!50}{\faBook}\hspace{.5em}%
+          \tikz[baseline]{\node[anchor=base,rounded corners=2.5pt,
+            text=black,fill=\Backcolor!50,inner sep=.3mm]
+            {\@foottheme};}\hspace{.5em}\@foottext
+        \end{minipage}%
+      };
+    \end{tikzpicture}%
+  }
+\else
+  %% ---- 简洁黑白页眉（禁用时）----------------------------------
+  \newcommand{\pageheadstyle}{%
+    \small\rmfamily
+    \ifodd\value{page}\rightmark\else\leftmark\fi%
+  }
+  %% ---- 简洁黑白页脚（禁用时）----------------------------------
+  \setlength{\footskip}{20pt}
+  \newcommand{\footstyle}{%
+    \small\rmfamily\thepage%
+  }
+\fi
+\makeatother
+
+% fancyhdr 页眉设置
+\setlength{\headheight}{50pt}
+% fancypagestyle 在 \footstyle 定义之后设置
+\fancypagestyle{mainpagestyle}{%
+  \fancyhf{}%
+  \fancyhead[C]{\pageheadstyle}%
+  \fancyfoot[C]{\footstyle}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+}
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyfoot[C]{\footstyle}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+}
+
+%% ================================================================
+%% 章节标题重新设计（融合模板风格 + 中文编号）
+%% ================================================================
+
+%% Part 标题
+\titleformat{\part}[display]
+  {\centering\Huge\bfseries\sffamily}
+  {\tikz[baseline]{\node[fill=qing!60,text=white,rounded corners=3pt,
+    inner sep=6pt,font=\large\bfseries]{\CTEXthepart};}}
+  {1.5ex}
+  {\color{qing!80!black}\rule{\linewidth}{1.5pt}\\\vspace{.5ex}#1\\
+   \vspace{.5ex}\color{qing!80!black}\rule{\linewidth}{1.5pt}}
+
+%% Chapter 标题
+\newlength{\chapterblank}
+\setlength{\chapterblank}{2.5cm}
+\titleformat{\chapter}
+  {\centering\Large\bfseries\sffamily}
+  {\tikz[baseline]{\node[fill=qing!70,text=white,rounded corners=3pt,
+    inner sep=5pt,font=\bfseries\normalsize]{\CTEXthechapter};}}
+  {1em}{#1}
+\titlespacing*{\chapter}{0em}{0.5em}{\chapterblank}
+
+%% Section 标题
+\titleformat{\section}
+  {\large\bfseries\sffamily\color{qing!80!black}}
+  {\thesection}{1em}{#1}
+\titlespacing{\section}{0pt}{2ex plus .1ex minus .2ex}{1.2ex minus .1ex}
+
+%% Subsection
+\titleformat{\subsection}
+  {\normalsize\bfseries\sffamily}
+  {\thesubsection}{1em}{#1}
+\titlespacing{\subsection}{0pt}{1.5ex}{0.8ex}
+
+%% Subsubsection
+\titleformat{\subsubsection}
+  {\normalsize\sffamily}
+  {\thesubsubsection}{1em}{#1}
+
+%% ================================================================
+%% 目录样式
+%% ================================================================
+% 注意：ctexbook 的 \CTEXthepart 输出“第X部分”，\CTEXthechapter 输出“第X章”
+% \thecontentslabel 在 part 条目中 = \CTEXthepart = “第一部分”
+% \thecontentslabel 在 chapter 条目中 = \CTEXthechapter = “第一章”
+% 直接使用 \thecontentslabel，不再额外添加“第...部/章”前后缀
+
+\titlecontents{part}[0em]
+  {\addvspace{1.5ex}\large\bfseries\sffamily\color{qing!80!black}}
+  {\thecontentslabel\enspace}
+  {}{\titlerule*[6pt]{.}\contentspage}
+\titlecontents{chapter}[2em]
+  {\addvspace{0.5ex}\bfseries}
+  {\thecontentslabel\enspace}
+  {}{\titlerule*[6pt]{.}\contentspage}
+\titlecontents{section}[4em]
+  {\small}
+  {\thecontentslabel\enspace}
+  {}{\titlerule*[6pt]{.}\contentspage}
+
+%% ================================================================
+%% 从原 formats.tex 保留的自定义命令
+%% ================================================================
+
+% 空白页
+\newcommand{\blankpage}{%
+  \newpage\thispagestyle{empty}\null\newpage}
+
+% 部分结尾装饰
+\newcommand{\storyend}[1][完]{%
+  \vspace{2em}
+  \begin{center}
+    \pgfornament[height=.8cm,color=qing!60]{88}\quad
+    {\sffamily\color{qing!80!black}#1}\quad
+    \pgfornament[height=.8cm,color=qing!60,symmetry=v]{88}
+  \end{center}}
+
+% 部分说明框
+\newlength{\prenoteblank}
+\setlength{\prenoteblank}{3em}
+\newcommand{\prenotes}[1]{%
+  \vspace{\prenoteblank}
+  {\rmfamily #1}
+  \vspace{\prenoteblank}}
+
+% 书末结尾页
+\newcommand{\myendpage}{%
+  \newpage\thispagestyle{empty}
+  \vspace*{\fill}
+  \begin{center}
+    \pgfornament[height=1.5cm,color=qing!50]{75}\\[1ex]
+    {\sffamily\color{qing!80!black}\large 全书完}\\[1ex]
+    \pgfornament[height=1.5cm,color=qing!50]{75}
+  \end{center}
+  \vspace*{\fill}}
+
+% 章节页眉
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+
+%% ================================================================
+%% 书籍基本信息
+%% ================================================================
+\title{引力波数据分析中的人工智能方法}
+\subtitle{从信号识别到模拟推断的系统研究}
+\edition{初稿}
+\bookseries{博士后文库}
+\author{王赫}
+\pressname{科学出版社}
+\presslogo{figures/sciencepress-logo.png}
+\newcount\compilehour
+\newcount\compileminute
+\newcount\compiletmp
+\compilehour=\time
+\divide\compilehour by 60
+\compileminute=\time
+\compiletmp=\compilehour
+\multiply\compiletmp by 60
+\advance\compileminute by -\compiletmp
+\newcommand{\covertwodigits}[1]{\ifnum#1<10 0\fi\number#1}
+\compileversion{编译版本：\number\year-\covertwodigits{\month}-\covertwodigits{\day} \covertwodigits{\compilehour}:\covertwodigits{\compileminute}}
+
+%% ---- 兼容旧格式命令（防止 onpart*.tex 中的旧命令报错）---------
+% \pagestyle{mystyle} → mainpagestyle（fancyhdr版本）
+\makeatletter
+\let\ps@mystyle\ps@mainpagestyle  % 初始值
+\AtBeginDocument{\let\ps@mystyle\ps@mainpagestyle}
+\makeatother
+% 旧模板的 \parttitle 在新模板中不需要（页眉自动取自章节标记）
+\providecommand{\parttitle}[1]{}
+\renewcommand{\parttitle}[1]{}
+% 旧模板的 \theendnotes（尾注）在新模板中忽略
+\providecommand{\theendnotes}{}
+% 旧模板的几何命令
+\providecommand{\tocgeo}{}
+\providecommand{\restoregeometry}{}
+
+%% ================================================================
+\begin{document}
+\pagestyle{mainpagestyle}
+
+%% ---- 封面 ------------------------------------------------------
+\makecover
+
+%% ---- 目录 ------------------------------------------------------
+{
+  \setcounter{tocdepth}{1}
+  \tableofcontents
+  \thispagestyle{empty}
+}
+\cleardoublepage
+\setcounter{page}{1}
+\zihao{5}
+
+%% ================================================================
+%% 前言（preface.tex 内部已有 \chapter*{前言}，此处只设置页脚并输入）
+%% ================================================================
+\foottheme{}
+\footimage{figures/faraday.jpg}
+\foottext{引力波的存在是广义相对论最重要的预言之一，其探测开辟了观测宇宙的全新窗口。\hfill —— 爱因斯坦（1916）}
+
+\input{preface}
+
+%% ================================================================
+%% 缩略语表
+%% ================================================================
+\input{abbreviations}
+
+%% ================================================================
+%% 第一部：理论基础与背景
+%% ================================================================
+\foottheme{}
+\footimage{figures/newton.jpg}
+\foottext{引力波是时空的涟漪，以光速传播，携带着宇宙中最剧烈事件的信息。\hfill —— 基普·索恩（2017年诺贝尔物理学奖）}
+\input{onpart1}
+
+%% ================================================================
+%% 第二部：传统方法与局限
+%% ================================================================
+\foottheme{}
+\footimage{figures/faraday.jpg}
+\foottext{在高斯平稳噪声中，匹配滤波是最优的线性检测器——这是奈曼-皮尔逊引理的直接推论。\hfill —— 引力波数据分析经典结论}
+\input{onpart2}
+
+%% ================================================================
+%% 第三部：人工智能新方法
+%% ================================================================
+\foottheme{}
+\footimage{figures/newton.jpg}
+\foottext{神经网络不是替代物理先验，而是在物理约束的引导下，探索人类专家难以直接触及的算法空间。\hfill —— 本书方法论核心}
+\input{onpart3}
+
+%% ================================================================
+%% 第四部：综合创新与融合
+%% ================================================================
+\foottheme{}
+\footimage{figures/faraday.jpg}
+\foottext{物理驱动与数据驱动的融合，不是两种方法的简单叠加，而是在更高层次上的方法论统一。\hfill —— 本书第四部}
+\input{onpart4}
+
+%% ================================================================
+%% 第五部：前沿挑战与展望
+%% ================================================================
+\foottheme{}
+\footimage{figures/newton.jpg}
+\foottext{太极、LISA、天琴将把引力波探测频段延伸至毫赫兹，开辟宇宙学尺度上的引力波天文学新纪元。\hfill —— 空间引力波探测展望}
+\input{onpart5}
+
+%% ---- 全书参考文献 ----------------------------------------------
+\cleardoublepage
+\renewcommand{\bibsection}{\chapter*{参考文献}\addcontentsline{toc}{chapter}{参考文献}}
+\bibliographystyle{unsrt}
+\bibliography{06_references/main}
+
+%% ---- 书末装饰 --------------------------------------------------
+\newpage
+\ifodd\thepage\blankpage\fi
+\myendpage
+
+\end{document}

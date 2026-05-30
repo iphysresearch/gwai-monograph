@@ -1,0 +1,142 @@
+\chapter*{主要缩略语表}
+\ifdefined\HCode\else\addcontentsline{toc}{chapter}{主要缩略语表}\fi
+\pagestyle{mystyle}
+
+\small
+
+% 分类小标题行：PDF 用 \multicolumn 跨三列；HTML(tex4ht) 下 \multicolumn
+% 作为整行会触发 “Misplaced \omit”，故改为普通三列行（首列放分类名）。
+\ifdefined\HCode
+  \newcommand{\catrow}[1]{\textbf{\textit{#1}} & & \\}
+\else
+  \newcommand{\catrow}[1]{\multicolumn{3}{l}{\textit{#1}} \\}
+\fi
+
+% tex4ht(HTML) 与 PDF 用不同表格环境：
+%   PDF  → longtable（跨页、重复表头）+ booktabs 横线
+%   HTML → 普通 tabular + \hline（tex4ht 对 longtable 的 \endhead 及
+%          booktabs 的 \noalign 横线支持差，会报 Misplaced \omit/\cr
+%          并污染 xetex .xdv 导致 postamble 致命错误）
+\ifdefined\HCode
+  % HTML 分支内：把 booktabs 横线降级为 \hline，\addlinespace 置空
+  \renewcommand{\addlinespace}[1][]{}%
+  \begin{center}
+  \begin{tabular}{p{2.5cm}p{6.8cm}p{4.2cm}}
+  \hline
+  \textbf{缩略语} & \textbf{英文全称} & \textbf{中文含义} \\
+  \hline
+\else
+\begin{longtable}{p{2.5cm}p{6.8cm}p{4.2cm}}
+
+\toprule
+\textbf{缩略语} & \textbf{英文全称} & \textbf{中文含义} \\
+\midrule
+\endfirsthead
+
+\toprule
+\textbf{缩略语} & \textbf{英文全称} & \textbf{中文含义} \\
+\midrule
+\endhead
+
+\midrule
+\multicolumn{3}{r}{\small\itshape 续下页} \\
+\endfoot
+
+\bottomrule
+\endlastfoot
+\fi
+
+%================================================
+\catrow{引力波探测器与观测任务}
+\addlinespace[0.3em]
+
+LIGO & Laser Interferometer Gravitational-Wave Observatory & 激光干涉引力波天文台 \\
+LISA & Laser Interferometer Space Antenna & 激光干涉仪空间天线 \\
+KAGRA & Kamioka Gravitational Wave Detector & 神冈引力波探测器 \\
+ET & Einstein Telescope & 爱因斯坦望远镜 \\
+CE & Cosmic Explorer & 宇宙探索者 \\
+PTA & Pulsar Timing Array & 脉冲星计时阵列 \\
+TDI & Time Delay Interferometry & 时间延迟干涉测量 \\
+
+\addlinespace[0.6em]
+
+%================================================
+\catrow{引力波源与天体系统}
+\addlinespace[0.3em]
+
+BBH & Binary Black Hole & 双黑洞系统 \\
+BNS & Binary Neutron Star & 双中子星系统 \\
+NSBH & Neutron Star--Black Hole & 中子星--黑洞系统 \\
+MBHB & Massive Black Hole Binary & 大质量双黑洞系统 \\
+EMRI & Extreme Mass Ratio Inspiral & 极端质量比旋入 \\
+SGWB & Stochastic Gravitational-Wave Background & 随机引力波背景 \\
+
+\addlinespace[0.6em]
+
+%================================================
+\catrow{信号处理、统计与数值方法}
+\addlinespace[0.3em]
+
+PSD & Power Spectral Density & 功率谱密度 \\
+SNR & Signal-to-Noise Ratio & 信噪比 \\
+FAR & False Alarm Rate & 误报率 \\
+ROC & Receiver Operating Characteristic & 接收者工作特征曲线 \\
+AUC & Area Under the Curve & 曲线下面积 \\
+FF & Fitting Factor & 匹配度 \\
+DQ & Data Quality & 数据质量 \\
+MCMC & Markov Chain Monte Carlo & 马尔可夫链蒙特卡洛方法 \\
+FFT & Fast Fourier Transform & 快速傅里叶变换 \\
+SVD & Singular Value Decomposition & 奇异值分解 \\
+
+\addlinespace[0.6em]
+
+%================================================
+\catrow{理论物理与波形建模}
+\addlinespace[0.3em]
+
+GR & General Relativity & 广义相对论 \\
+PN & Post-Newtonian & 后牛顿近似 \\
+NR & Numerical Relativity & 数值相对论 \\
+SPA & Stationary Phase Approximation & 驻相近似 \\
+TT & Transverse-Traceless & 横向无迹规范 \\
+
+\addlinespace[0.6em]
+
+%================================================
+\catrow{机器学习与人工智能方法}
+\addlinespace[0.3em]
+
+CNN & Convolutional Neural Network & 卷积神经网络 \\
+MF-CNN & Matched-Filtering Convolutional Neural Network & 匹配滤波卷积神经网络 \\
+RNN & Recurrent Neural Network & 循环神经网络 \\
+LSTM & Long Short-Term Memory & 长短期记忆网络 \\
+CVAE & Conditional Variational Autoencoder & 条件变分自编码器 \\
+CNF & Continuous Normalizing Flow & 连续归一化流 \\
+SBI & Simulation-Based Inference & 基于模拟的推断 \\
+NPE & Neural Posterior Estimation & 神经后验估计 \\
+NLE & Neural Likelihood Estimation & 神经似然估计 \\
+NRE & Neural Ratio Estimation & 神经比率估计 \\
+LLM & Large Language Model & 大语言模型 \\
+MCTS & Monte Carlo Tree Search & 蒙特卡洛树搜索 \\
+AHD & Automated Heuristic Design & 自动启发式设计 \\
+PINN & Physics-Informed Neural Network & 物理信息神经网络 \\
+
+\addlinespace[0.6em]
+
+%================================================
+\catrow{数据集、挑战赛与观测运行}
+\addlinespace[0.3em]
+
+GWTC & Gravitational-Wave Transient Catalog & 引力波暂现源目录 \\
+LDC & LISA Data Challenge & LISA 数据挑战赛 \\
+TDC & Taiji Data Challenge & 太极数据挑战赛 \\
+MLGWSC-1 & 1st ML Gravitational-Wave Search Challenge & 第一届机器学习引力波搜索挑战赛 \\
+O1/O2/O3/O4 & Observing Run 1/2/3/4 & 第1/2/3/4轮科学观测 \\
+
+\ifdefined\HCode
+  \hline
+  \end{tabular}
+  \end{center}
+\else
+\end{longtable}
+\fi

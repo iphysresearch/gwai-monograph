@@ -1,0 +1,17 @@
+-- ============================================================
+-- book_html.mk4 —— make4ht build 文件（Lua）
+--
+-- 关键职责：把正文中的 6 个 TikZ/PGFPlots 图通过 dvisvgm 渲染为 SVG，
+--   避免 tex4ht 直接解析 xetex .xdv 中复杂的 TikZ 字体定义而报
+--   “Improper op while scanning font defs in postamble” 致命错误。
+--
+-- 引擎(xelatex)由 build_html.sh 命令行 -x 指定。
+-- ============================================================
+
+-- dvisvgm_hashes 扩展：自动抽取 picture/tikzpicture 环境，
+-- 用 dvisvgm 单独渲染成 SVG 并以 <img>/<svg> 内联回 HTML。
+-- （需要系统中存在 dvisvgm 可执行文件，见 README/CI。）
+Make:htlatex {}
+
+-- 注：dvisvgm_hashes 通过命令行 "tikz+dvisvgm_hashes" mode 启用，
+-- 见 build_html.sh。本文件保留标准编译序列即可。

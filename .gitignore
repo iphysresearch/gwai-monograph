@@ -1,0 +1,39 @@
+# ============================================================
+# .gitignore —— public 仓库（gwai-monograph-html）
+# 公开成书源码 + PDF + HTML；忽略编译中间产物与本地缓存。
+# ============================================================
+
+# HTML 构建产物（由 CI 重建并部署，不入库）
+site/
+test_site/
+
+# tex4ht / make4ht 中间产物
+*.4ct
+*.4tc
+*.dvi
+*.idv
+*.lg
+*.tmp
+*.xref
+*.xdv
+*.css
+!assets/*.css
+
+# LaTeX 编译中间产物
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+
+# OS
+.DS_Store
+Thumbs.db

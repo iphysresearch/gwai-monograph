@@ -1,0 +1,132 @@
+\pagestyle{mystyle}
+
+\appendix
+
+\chapter{嵌套采样算法：原理与实现细节}
+\label{app:nested_sampling}
+
+\section{算法基本原理}
+
+嵌套采样（Nested Sampling）由Skilling于2004年在贝叶斯方法研讨会上首次提出~\cite{Skilling2004nested}，并于2006年发表期刊论文系统阐述~\cite{Skilling2006nested}。其核心思想是通过引入先验质量变量，将高维贝叶斯证据积分转化为一维积分。
+
+定义先验质量变量
+\begin{equation}
+  X(\lambda) = \int_{p(d|\theta) > \lambda} p(\theta)\,\mathrm{d}\theta,
+\end{equation}
+即似然值超过阈值 $\lambda$ 的参数空间区域所对应的先验概率质量。由于 $X$ 是 $\lambda$ 的单调递减函数，且 $X(0)=1$，$X(\infty)=0$，证据积分可以改写为
+\begin{equation}
+  \mathcal{Z} = \int_0^1 \mathcal{L}(X)\,\mathrm{d}X,
+\end{equation}
+其中 $\mathcal{L}(X)$ 是先验质量 $X$ 对应的似然值。这一变换将 $d$ 维积分化为一维积分，是嵌套采样算法的数学基础。
+
+\section{算法迭代步骤}
+
+算法维护 $N_\mathrm{live}$ 个"活跃点"（live points），均匀分布在当前似然阈值以上的参数空间中。每次迭代执行以下步骤：
+
+\begin{enumerate}
+  \item 找出当前活跃点中似然值最低的点 $\theta^*$，其似然值 $\mathcal{L}^*$ 作为新的阈值；
+  \item 将 $\theta^*$ 从活跃点集合中移除，记录为"死点"，赋予统计权重 $w_i \approx X_{i-1} - X_i$（其中 $X_i \approx \exp(-i/N_\mathrm{live})$）；
+  \item 在似然值大于 $\mathcal{L}^*$ 的约束先验中采样一个新点，加入活跃点集合；
+  \item 重复上述步骤，直至剩余证据贡献 $\Delta\mathcal{Z} = \mathcal{L}_\mathrm{max} \cdot X_\mathrm{current}$ 小于已积累证据的 $10^{-3}$。
+\end{enumerate}
+
+最终证据估计为
+\begin{equation}
+  \hat{\mathcal{Z}} = \sum_{i=1}^{N_\mathrm{dead}} w_i \mathcal{L}_i + \frac{1}{N_\mathrm{live}}\sum_{j=1}^{N_\mathrm{live}} \mathcal{L}_j \cdot X_\mathrm{final},
+\end{equation}
+后验样本通过对死点按权重 $w_i \mathcal{L}_i / \hat{\mathcal{Z}}$ 重采样获得。
+
+\section{MultiNest：椭球采样与多模态处理}
+
+MultiNest~\cite{Feroz2009MultiNest} 是嵌套采样在引力波参数估计中应用最广泛的实现，由Feroz、Hobson和Bridges于2009年提出。其核心创新在于椭球采样策略（ellipsoidal sampling）：用一个或多个椭球体近似当前活跃点所占据的参数空间区域，在这些椭球体内均匀采样以生成满足似然约束的新点。
+
+具体地，MultiNest通过最小体积椭球（MVEE）算法计算包围所有活跃点的最小椭球，并将其体积放大因子 $f_\mathrm{enlarge}$（通常取1.0--1.5）以确保完整覆盖。椭球采样的接受率可达 $10\%$--$50\%$，远优于先验均匀采样（接受率 $\sim 1/N_\mathrm{live}$）。
+
+对多模态后验，MultiNest采用多椭球分解（multi-ellipsoidal decomposition）策略：通过期望最大化（EM）算法将活跃点聚类为若干组，每组用独立的椭球覆盖，聚类数目通过贝叶斯信息准则（BIC）自动确定。这使MultiNest能够可靠地发现和采样所有后验极大值，是引力波天空位置双峰简并问题的有效解决方案。
+
+在引力波参数估计中，典型参数设置为：$N_\mathrm{live} = 1000$--$4000$，$f_\mathrm{enlarge} = 1.2$，终止条件 $\Delta\mathcal{Z}/\mathcal{Z} < 10^{-3}$。证据估计精度约为 $\sigma(\ln\mathcal{Z}) \approx \sqrt{H/N_\mathrm{live}}$，其中 $H$ 为后验相对先验的信息增益（通常 $H \approx 10$--$30$ 奈特）。
+
+\section{dynesty：动态嵌套采样}
+
+dynesty~\cite{Speagle2020dynesty} 引入了动态嵌套采样（dynamic nested sampling）框架，根据后验分布的局部形状自适应地调整活跃点数量：在后验概率密度高、形状复杂的区域增加活跃点，在低概率区域减少活跃点，从而在相同总计算代价下获得更精确的后验估计，通常节省约30\%--50\%的计算时间。
+
+dynesty提供了多种内部采样器，包括椭球采样、随机游走和切片采样。切片采样在高维强相关后验中表现尤为出色，因为它沿参数空间的随机方向进行一维切片，能够有效穿越高维后验的"山脊"结构。在Bilby框架中，dynesty是默认的采样器~\cite{Ashton2019Bilby}，与GWTC-3分析中LALInference+MultiNest的结果高度一致（后验分布在统计误差内相同），验证了两套实现的鲁棒性。
+
+\section{计算效率分析}
+
+嵌套采样的总计算代价主要由似然评估次数决定。理论上，所需评估次数约为
+\begin{equation}
+  N_\mathrm{eval} \approx N_\mathrm{live} \cdot H \cdot N_\mathrm{live},
+\end{equation}
+对于典型引力波参数估计（$H \approx 20$ 奈特，$N_\mathrm{live} = 2000$），这给出约 $N_\mathrm{eval} \approx 10^5$--$10^7$ 次似然评估。每次似然评估的计算时间强烈依赖于波形模型：后牛顿波形（$\sim0.1$ ms/次）对应约0.5--5小时的参数估计；现象学波形（$\sim1$--10 ms/次）对应约1--6小时；EOB波形（$\sim10$--100 ms/次）对应约10--60小时；EMRI波形（$\sim1$--100 s/次）使完整嵌套采样需要数月时间，在实践中完全不可行。
+
+MultiNest和dynesty均支持MPI并行，使用16--64个CPU核心可将墙钟时间压缩约10--40倍。LIGO-Virgo合作组在O3期间的标准参数估计运行通常使用32--128个CPU核心，将单事件参数估计的墙钟时间控制在6--48小时以内。
+
+---
+
+\chapter{Fisher信息矩阵：推导与EMRI中的特殊问题}
+\label{app:fisher_matrix}
+
+\section{Fisher矩阵的定义与性质}
+
+Fisher信息矩阵的引力波版本由Cutler和Flanagan~\cite{Cutler1994PE}在1994年的奠基性工作中系统建立。给定引力波信号 $h(\theta)$，其中 $\theta = \{\theta^i\}$ 为参数向量，Fisher信息矩阵定义为
+\begin{equation}
+  \Gamma_{ij} = \left\langle \partial_i h,\, \partial_j h \right\rangle,
+  \label{eq:fisher_def_app}
+\end{equation}
+其中 $\partial_i h \equiv \partial h / \partial\theta^i$，噪声加权内积定义为
+\begin{equation}
+  \langle a, b \rangle = 4\,\mathrm{Re}\int_0^\infty \frac{\tilde{a}^*(f)\,\tilde{b}(f)}{S_n(f)}\,\mathrm{d}f.
+\end{equation}
+
+\textbf{Cramér-Rao界}。对于任意无偏估计量 $\hat{\theta}^i$，其均方误差满足
+\begin{equation}
+  \Delta\theta^i \geq \left(\Gamma^{-1}\right)_{ii}^{1/2},
+  \label{eq:crb_app}
+\end{equation}
+即 $(\Gamma^{-1})_{ii}^{1/2}$ 是第 $i$ 个参数在最优无偏估计下的Cramér-Rao下界。
+
+\textbf{与贝叶斯后验的关系}。在高SNR极限下（Bernstein-von Mises定理），贝叶斯后验分布趋近于以真实参数值为中心的多维高斯分布：
+\begin{equation}
+  p(\theta | d) \xrightarrow{\rho \to \infty} \mathcal{N}\!\left(\theta_\mathrm{true},\, \Gamma^{-1}\right).
+\end{equation}
+这一极限关系是Fisher矩阵作为后验分布近似的理论依据，仅在 $\rho \gtrsim 10$ 时给出合理的误差估计。
+
+\section{引力波参数空间中的简并结构}
+
+引力波参数空间中存在多种导致多模态后验的物理机制，Fisher矩阵无法捕捉：
+
+（1）\textit{距离-倾角简并}：光度距离 $d_L$ 和轨道倾角 $\iota$ 通过引力波幅度的极化分解耦合，后验分布呈现非高斯的香蕉形结构，Fisher矩阵给出的椭圆误差区域严重低估了真实参数不确定度。
+
+（2）\textit{天空位置的双峰简并}：对于两台探测器构成的网络，天空位置后验通常呈现两个对称的峰，Fisher矩阵作为单峰近似无法捕捉这一双峰结构。
+
+（3）\textit{质量-自旋简并}：啁啾质量 $\mathcal{M}$ 与有效自旋 $\chi_\mathrm{eff}$ 之间存在强简并，后验分布沿简并方向延伸形成细长的脊状结构，Fisher矩阵的高斯近似失效。
+
+Rodriguez等人~\cite{Rodriguez2013Fisher}的系统性比较表明：在GWTC-1的事件样本中，约30\%的事件存在Fisher矩阵误差超过50\%的情形，主要集中在低SNR事件和存在强参数简并的系统。
+
+\section{Fisher矩阵在EMRI中的特殊挑战}
+
+\textbf{"阶梯地形"与局部极值问题}。EMRI信号在参数空间中形成极为复杂的似然函数地形，其特征是存在大量局部极大值~\cite{Babak2017EMRI}。EMRI在LISA频段内积累约 $10^5$ 个轨道周期，信号相位的微小变化会导致匹配滤波输出迅速下降，然后在相位差为 $2\pi$ 整数倍处再次出现局部极大值。Fisher矩阵只描述真实参数值附近的局部曲率，无法反映远处局部极值的存在，严重低估了全局参数不确定度。
+
+\textbf{相位简并与矩阵近奇异性}。EMRI参数空间中多个参数组合（轨道频率、进动频率、章动频率）以近似共振的方式影响信号相位，导致Fisher矩阵接近奇异。定量地，EMRI Fisher矩阵的条件数（最大特征值与最小特征值之比）可达 $\sim 10^{10}$，远超双黑洞系统的典型值（$\sim 10^3$--$10^5$）。条件数如此之高意味着Fisher矩阵的数值求逆极不稳定，矩阵元素的微小数值误差会被放大 $10^{10}$ 倍。
+
+\textbf{数值微分的精度问题}。对于EMRI的数值波形，偏导数只能通过有限差分近似：
+\begin{equation}
+  \partial_i h \approx \frac{h(\theta + \epsilon\,\hat{e}_i) - h(\theta - \epsilon\,\hat{e}_i)}{2\epsilon}.
+\end{equation}
+步长 $\epsilon$ 的选择面临两难困境：步长过大则截断误差大，步长过小则舍入误差主导。对于EMRI波形，由于信号相位在参数空间中变化极快，最优步长极小，使数值微分精度问题尤为突出。
+
+\section{Cutler-Vallisneri偏差公式}
+
+Cutler和Vallisneri~\cite{Cutler2007Vallisneri}发展了一套估计波形模型系统误差对参数估计偏差的框架。其核心结果是偏差公式：
+\begin{equation}
+  \delta\theta^i = \left(\Gamma^{-1}\right)^{ij} \left\langle \delta h,\, \partial_j h \right\rangle,
+  \label{eq:cv_bias_app}
+\end{equation}
+其中 $\delta h = h_\mathrm{approx} - h_\mathrm{exact}$ 为近似波形与精确波形之差。式~\eqref{eq:cv_bias_app} 在不运行完整MCMC的情况下，可以快速评估波形模型精度对参数估计的影响，在LISA科学目标论证中被广泛使用。
+
+\begingroup
+\renewcommand{\bibsection}{\section*{参考文献}}
+\bibliographystyle{unsrtnat}
+\bibliography{06_references/main}
+\endgroup

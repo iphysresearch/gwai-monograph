@@ -1,0 +1,132 @@
+/* ============================================================
+   引力波数据分析中的人工智能方法 —— 在线版样式
+   仿照简洁学术阅读体验：限宽居中、舒适中文行距、自适应图表。
+   ============================================================ */
+
+:root {
+  --qing: #1A7F76;
+  --qing-light: #26A69A;
+  --ink: #222;
+  --muted: #666;
+  --rule: #e3e6e6;
+  --bg: #fcfcfb;
+  --maxw: 820px;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, "PingFang SC", "Songti SC", "Noto Serif CJK SC",
+    "Source Han Serif SC", "Microsoft YaHei", serif;
+  font-size: 18px;
+  line-height: 1.85;
+}
+
+/* ---- 顶部站点栏 ---- */
+.site-header {
+  background: var(--qing);
+  color: #fff;
+  position: sticky; top: 0; z-index: 50;
+  box-shadow: 0 1px 6px rgba(0,0,0,.12);
+}
+.site-wrap {
+  max-width: var(--maxw); margin: 0 auto; padding: 12px 20px;
+  display: flex; align-items: baseline; gap: 12px;
+}
+.site-title { color: #fff; font-weight: 700; text-decoration: none; font-size: 17px; }
+.site-title:hover { text-decoration: underline; }
+.site-sub { color: rgba(255,255,255,.8); font-size: 13px; }
+
+/* ---- 正文容器 ---- */
+.content {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 28px 22px 80px;
+}
+
+/* ---- 标题 ---- */
+h1, h2, h3, h4 {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  line-height: 1.35; color: #111; margin: 1.6em 0 .7em;
+}
+h1 { font-size: 1.7em; border-bottom: 3px solid var(--qing); padding-bottom: .3em; }
+h2 { font-size: 1.4em; color: var(--qing); }
+h3 { font-size: 1.2em; }
+h4 { font-size: 1.05em; color: var(--muted); }
+
+/* part / chapter 标题居中（tex4ht 用 h2/h3 表示）*/
+.partHead, .chapterHead { text-align: center; }
+
+p { margin: .55em 0; text-align: justify; }
+
+a { color: var(--qing); }
+a:hover { color: var(--qing-light); }
+
+/* ---- 图片 ---- */
+img, svg, .graphics {
+  max-width: 100%; height: auto; display: block; margin: 1em auto;
+}
+figure { margin: 1.4em 0; text-align: center; }
+figcaption, .caption {
+  font-size: .85em; color: var(--muted); margin-top: .5em; line-height: 1.6;
+}
+
+/* ---- 表格（booktabs 风格）---- */
+table { border-collapse: collapse; margin: 1.2em auto; font-size: .9em; max-width: 100%; }
+.content table { display: block; overflow-x: auto; }
+td, th { padding: .45em .8em; }
+thead th { border-top: 2px solid #333; border-bottom: 1.5px solid #333; }
+tbody tr:last-child td { border-bottom: 2px solid #333; }
+.longtable td, .longtable th { vertical-align: top; }
+
+/* ---- 公式（MathJax）溢出滚动 ---- */
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+mjx-container[display="true"] { margin: 1em 0; }
+
+/* ---- 目录 ---- */
+.tableofcontents, .toc { line-height: 1.6; }
+.likepartToc { font-weight: 700; color: var(--qing); margin-top: 1em; }
+
+/* ---- 参考文献 ---- */
+.thebibliography { font-size: .88em; line-height: 1.55; }
+.thebibliography p { margin: .35em 0; }
+
+/* ---- 脚注 / 引用角标 ---- */
+sup a, .footnote-mark { font-size: .75em; }
+
+/* ---- 页脚 ---- */
+.site-footer {
+  max-width: var(--maxw); margin: 40px auto 0; padding: 18px 22px;
+  border-top: 1px solid var(--rule); color: var(--muted);
+  font-size: .82em; text-align: center;
+}
+
+/* ---- 顶/底页面导航（tex4ht crosslinks）---- */
+.crosslinks { font-size: .85em; color: var(--muted); margin: 1.5em 0; }
+.crosslinks a { margin: 0 .4em; }
+
+/* ---- 响应式 ---- */
+@media (max-width: 640px) {
+  body { font-size: 16px; line-height: 1.8; }
+  .content { padding: 18px 14px 60px; }
+  h1 { font-size: 1.45em; }
+}
+
+/* ---- 深色模式 ---- */
+@media (prefers-color-scheme: dark) {
+  :root { --ink: #ddd; --muted: #999; --bg: #1a1c1d; --rule: #333; }
+  body { background: var(--bg); color: var(--ink); }
+  h1, h2, h3 { color: #e8e8e8; }
+  h2 { color: var(--qing-light); }
+  thead th, tbody tr:last-child td { border-color: #888; }
+  img { opacity: .92; }
+}
+
+/* ---- 预渲染 TikZ 示意图 ---- */
+.tikz-figure { text-align: center; margin: 1.2em 0; }
+.tikz-figure img { max-width: 96%; height: auto; display: inline-block; }

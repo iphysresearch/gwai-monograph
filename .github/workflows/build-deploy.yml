@@ -1,0 +1,53 @@
+name: Build & Deploy HTML
+
+# 在 push 到 main 时：用 TeX Live 容器编译 HTML，部署到 GitHub Pages。
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时间只跑一个部署
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build HTML with TeX Live (make4ht + xeCJK)
+        uses: xu-cheng/texlive-action@v3
+        with:
+          scheme: full
+          run: |
+            set -e
+            # full scheme 已含 ctex/xecjk/make4ht/dvisvgm/fandol，
+            # 但保险起见显式确保关键包存在。
+            tlmgr install ctex xecjk dvisvgm fandol amscls make4ht || true
+            # 字体缓存（fandol 为 TeX Live 自带，xelatex 可直接用）
+            chmod +x build_html.sh
+            ./build_html.sh
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

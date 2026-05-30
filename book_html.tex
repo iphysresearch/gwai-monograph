@@ -1,0 +1,136 @@
+%% ============================================================
+%% 引力波数据分析中的人工智能方法 —— HTML 在线版驱动文件
+%%
+%% 本文件是 book_main.tex 的“精简姊妹版”，专用于 make4ht/tex4ht
+%% 转出 HTML（GitHub Pages 在线阅读版），与 book_main.tex 并存、复用
+%% 同一批正文片段（preface / abbreviations / onpart1..5）。
+%%
+%% 关键决策（均经过 make4ht 实测验证）：
+%%   * fontset=none：HTML 字体由浏览器/CSS 决定，TeX 端不加载真实 CJK 字体；
+%%     用 fandol 会触发 tex4ht 在 fontspec 字体定义阶段报错。中文以 UTF-8
+%%     直接透传到 HTML，本地与 CI(Linux) 均稳定。
+%%   * 不写 \hypersetup{pdftitle=中文,...}：xdv 中的中文 pdfinfo 会让 tex4ht
+%%     在 postamble 扫描字体定义时崩溃（Improper op ... postamble）。链接颜色
+%%     交给 assets/style.css。
+%%   * tikzpicture 在 HTML 下用 \RenewEnviron 降级为占位（含中文的复杂矢量图，
+%%     dvisvgm 嵌字不稳定；信息已由各图 \caption 完整描述）。
+%%   * abbreviations.tex 在 HTML 下用普通 tabular + \hline（见该文件内的
+%%     \ifdefined\HCode 分支），规避 longtable/booktabs 的 \noalign 问题。
+%%
+%% 本地构建：  ./build_html.sh
+%% ============================================================
+\documentclass[zihao=-4,UTF8,fontset=none,oneside,openany]{ctexbook}
+
+%% ---- 数学 ------------------------------------------------------
+\usepackage{amsmath,amssymb,amsthm}
+
+%% ---- 图形 ------------------------------------------------------
+\usepackage{graphicx}\usepackage{float}\usepackage{subcaption}
+
+%% ---- 表格 ------------------------------------------------------
+\usepackage{tabularx,booktabs,array}\usepackage{longtable}
+\usepackage{multirow}\usepackage{multicol}
+
+%% ---- 列表/排版辅助 --------------------------------------------
+\usepackage{enumitem}\usepackage{indentfirst}\usepackage{setspace}
+\usepackage{etoolbox}\usepackage{adjustbox}
+
+%% ---- 颜色（正文用到 qing 主题色 / textcolor）------------------
+\usepackage[dvipsnames,svgnames,x11names,table]{xcolor}
+\definecolor{qing}{HTML}{26A69A}
+
+%% ---- 参考文献（全书全局一份，natbib 数字编号）----------------
+\usepackage[numbers,sort&compress,square]{natbib}
+
+%% ---- 链接（不设含中文的 pdfinfo，避免 tex4ht postamble 崩溃）---
+\usepackage{url}\usepackage{hyperref}
+
+%% ---- TikZ / PGFPlots ------------------------------------------
+%% 仅 PDF 模式加载 tikz/pgfplots。HTML 模式不加载：6 个图已由
+%% render_tikz.sh 预渲染成 PNG，且加载 tikz 会让 tex4ht 的 tikz.4ht
+%% 接管 tikzpicture 环境、转成空 SVG，覆盖我们的 \RenewEnviron。
+\ifdefined\HCode\else
+  \usepackage{tikz}\usepackage{pgfplots}\pgfplotsset{compat=1.18}
+\fi
+
+%% ---- 章节编号深度 ---------------------------------------------
+\setcounter{secnumdepth}{3}\setcounter{tocdepth}{2}
+
+%% ---- 编译时间戳（用于首页“编译版本”）------------------------
+% \time 为当日分钟数；据此算出时:分，并提供两位补零命令 \twodigit。
+\newcommand{\twodigit}[1]{\ifnum#1<10 0\fi\number#1}
+\newcount\hournow \newcount\minutenow \newcount\tmpmin
+\hournow=\time \divide\hournow by 60
+\minutenow=\time \tmpmin=\hournow \multiply\tmpmin by 60
+\advance\minutenow by -\tmpmin
+
+%% ================================================================
+%% 兼容性兜底：正文片段里残留的“印刷版专用”命令在 HTML 下安全降级。
+%% ================================================================
+\makeatletter\let\ps@mystyle\ps@plain\makeatother
+\providecommand{\parttitle}[1]{}\renewcommand{\parttitle}[1]{}
+\providecommand{\foottheme}[1]{}\providecommand{\foottext}[1]{}
+\providecommand{\footimage}[1]{}
+\providecommand{\missingfigureplaceholder}[2]{\par\noindent\textit{[待补图：#2]}\par}
+\providecommand{\storyend}[1][]{}\providecommand{\prenotes}[1]{\par #1\par}
+\providecommand{\blankpage}{}\providecommand{\myendpage}{}
+\providecommand{\theendnotes}{}\providecommand{\subtitle}[1]{}
+
+%% ---- HTML 模式专用：tikzpicture → 预渲染 PNG ------------------
+%% tex4ht 无法直接渲染含中文的复杂 TikZ（会让 xetex .xdv 崩溃）。
+%% 解决：用 render_tikz.sh 预先把 6 个 tikzpicture 用 tectonic 渲成
+%% figures/tikz_*.png，这里按它们在正文中的出现顺序依次替换。
+%% 顺序必须与 render_tikz.sh 一致：
+%%   1 fusion_paths  2 method_compare (onpart4)
+%%   3 global_layers 4 p2_arch 5 p3_arch 6 trend_arch (onpart5)
+\ifdefined\HCode
+  \usepackage{environ}
+  \newcounter{tikzimg}
+  % 直接用 \HCode 输出 <img>，绕过 tex4ht 的图形→SVG 转换路径
+  %（\includegraphics 会被 tex4ht 转成空 SVG 且需要 .xbb，故不用）。
+  \RenewEnviron{tikzpicture}{%
+    \stepcounter{tikzimg}%
+    \edef\thistikzimg{\ifcase\value{tikzimg}\or
+      tikz_fusion_paths\or tikz_method_compare\or tikz_global_layers\or
+      tikz_p2_arch\or tikz_p3_arch\or tikz_trend_arch\fi}%
+    \par\noindent
+    \HCode{<div class="tikz-figure"><img src="figures/}%
+    \HCode{\thistikzimg}\HCode{.png" alt="" /></div>}%
+    \par}
+\fi
+
+%% ================================================================
+\begin{document}
+
+%% ---- 书名页（HTML 版简洁标题，替代精美封面）------------------
+\begin{center}
+  {\zihao{1}\bfseries 引力波数据分析中的人工智能方法}\\[0.8em]
+  {\zihao{3} 从信号识别到模拟推断的系统研究}\\[1.5em]
+  {\zihao{4} 王\quad 赫}\\[1.2em]
+  {\zihao{-4} 初稿}\\[0.3em]
+  {\zihao{-5} 编译版本：\the\year-\twodigit\month-\twodigit\day\ \twodigit\hournow:\twodigit\minutenow}
+\end{center}
+\vspace{2em}
+
+%% ---- 目录 ------------------------------------------------------
+\tableofcontents
+
+%% ---- 前言 / 缩略语表 -------------------------------------------
+\input{preface}
+\input{abbreviations}
+
+%% ---- 正文五部 --------------------------------------------------
+\input{onpart1}
+\input{onpart2}
+\input{onpart3}
+\input{onpart4}
+\input{onpart5}
+
+%% ---- 全书参考文献（全局一份）----------------------------------
+% HTML 下不手动 \addcontentsline：tex4ht 会自动把 \chapter* 收进目录，
+% 手动添加会导致目录里“参考文献”出现两次。
+\bibliographystyle{unsrt}
+\renewcommand{\bibsection}{\chapter*{参考文献}}
+\bibliography{06_references/main}
+
+\end{document}
