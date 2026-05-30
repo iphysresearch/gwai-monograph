@@ -9,7 +9,7 @@
 
 ## 在线阅读
 
-- **网页版（HTML）**：<https://iphysresearch.github.io/gwai-monograph-html/>
+- **网页版（HTML）**：<https://iphysresearch.github.io/gwai-monograph/>
 - **PDF 版**：[book_main.pdf](./book_main.pdf)
 
 ## 全书结构（5 部 12 章）
@@ -46,12 +46,20 @@ python3 -m http.server -d site 8000   # 浏览器打开 http://localhost:8000/
 ```
 
 产物在 `site/`：目录页 + 各章 HTML，公式由 MathJax 浏览器端渲染，
-TikZ 示意图转为 SVG，交叉引用与参考文献保留。
+TikZ 示意图由 `render_tikz.sh` 预渲染为 PNG，交叉引用与参考文献保留。
 
-## 自动部署
+## 部署
 
-push 到 `main` 后，GitHub Actions（`.github/workflows/build-deploy.yml`）在 TeX Live
-容器内运行 `build_html.sh`，并把 `site/` 部署到 GitHub Pages。
+站点托管于 GitHub Pages（`gh-pages` 分支）。本地构建后用 `deploy_ghpages.sh`
+把 `site/` 推送到 `gh-pages` 分支即可发布：
+
+```bash
+./build_html.sh                  # 生成 site/
+./deploy_ghpages.sh /path/to/repo  # 推送到 gh-pages 分支
+```
+
+仓库内也附带 GitHub Actions 工作流（`.github/workflows/build-deploy.yml`），
+在 TeX Live 容器内构建并部署，可在启用 Actions 时使用。
 
 ## 相关资源
 
