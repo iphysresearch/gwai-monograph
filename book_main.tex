@@ -98,9 +98,6 @@
 \usepackage{endnotes}
 \usepackage{etoolbox}
 \usepackage{subcaption}
-\DeclareCaptionFont{xiaowu}{\zihao{-5}}
-\captionsetup[figure]{font=xiaowu}
-\captionsetup[subfigure]{font=xiaowu}
 \usepackage{multirow}
 \usepackage{enumitem}
 \usepackage{multicol}
@@ -125,27 +122,6 @@
 \pgfdeclarelayer{top}
 \pgfdeclarelayer{bottom}
 \pgfsetlayers{bottom,background,main,foreground,top}
-
-%% ---- 待补图占位 --------------------------------------------------
-\newcommand{\missingfigureplaceholder}[2]{%
-  \begin{tikzpicture}
-    \node[
-      draw=gray!55,
-      dashed,
-      rounded corners=3pt,
-      fill=gray!6,
-      minimum width=0.88\textwidth,
-      minimum height=#1,
-      align=center,
-      inner sep=10pt
-    ] {%
-      \textbf{待补图}\\[0.6em]
-      \begin{minipage}{0.78\textwidth}
-        \centering\zihao{-5}#2
-      \end{minipage}
-    };
-  \end{tikzpicture}%
-}
 
 %% ================================================================
 %% 页眉设计（来自模板 book.tex）
@@ -354,28 +330,15 @@
 \title{引力波数据分析中的人工智能方法}
 \subtitle{从信号识别到模拟推断的系统研究}
 \edition{初稿}
-\bookseries{博士后文库}
 \author{王赫}
-\pressname{科学出版社}
-\presslogo{figures/sciencepress-logo.png}
-\newcount\compilehour
-\newcount\compileminute
-\newcount\compiletmp
-\compilehour=\time
-\divide\compilehour by 60
-\compileminute=\time
-\compiletmp=\compilehour
-\multiply\compiletmp by 60
-\advance\compileminute by -\compiletmp
-\newcommand{\covertwodigits}[1]{\ifnum#1<10 0\fi\number#1}
-\compileversion{编译版本：\number\year-\covertwodigits{\month}-\covertwodigits{\day} \covertwodigits{\compilehour}:\covertwodigits{\compileminute}}
 
 %% ---- 兼容旧格式命令（防止 onpart*.tex 中的旧命令报错）---------
 % \pagestyle{mystyle} → mainpagestyle（fancyhdr版本）
 \makeatletter
 \let\ps@mystyle\ps@mainpagestyle  % 初始值
-\AtBeginDocument{\let\ps@mystyle\ps@mainpagestyle}
 \makeatother
+\AtBeginDocument{%
+  \makeatletter\let\ps@mystyle\ps@mainpagestyle\makeatother}
 % 旧模板的 \parttitle 在新模板中不需要（页眉自动取自章节标记）
 \providecommand{\parttitle}[1]{}
 \renewcommand{\parttitle}[1]{}
@@ -400,7 +363,6 @@
 }
 \cleardoublepage
 \setcounter{page}{1}
-\zihao{5}
 
 %% ================================================================
 %% 前言（preface.tex 内部已有 \chapter*{前言}，此处只设置页脚并输入）

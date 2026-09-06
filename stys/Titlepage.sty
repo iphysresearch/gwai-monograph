@@ -34,10 +34,8 @@ BoldItalicFont = *_Bold_Italic,]{Sansation}
 \newcommand*\edition[1]{\def\@edition{#1}}
 \newcommand*\presslogo[1]{\def\@presslogo{#1}}
 \newcommand*\pressname[1]{\def\@pressname{#1}}
-\newcommand*\compileversion[1]{\def\@compileversion{#1}}
 %\newcommand*\coverimage[1]{\def\@coverimage{#1}}
 %%----------------------------------封面信息定义--------------------------------------------------------%%
-\compileversion{}
 \makeatother
 %%%%===============================================================%%%%%
 %%------------------------------------------------------封面设计--------------------------------------------------------%%
@@ -115,11 +113,12 @@ BoldItalicFont = *_Bold_Italic,]{Sansation}
         ([xshift=10.5\outermarginwidth]current page.north west) rectangle ([xshift=11\outermarginwidth,yshift=-.7\covershift]current page.north west);%顶部琴键矩形19
         \shade[top color=coverfgcolor!65,bottom color=coverfgcolor!55,opacity=.5]
         ([xshift=11\outermarginwidth]current page.north west) rectangle ([xshift=11.5\outermarginwidth,yshift=-1.3\covershift]current page.north west);%顶部琴键矩形20
+        \ifdefvoid{\@bookseries}{}{%
         \node[anchor=south] at ([xshift=5.8\outermarginwidth,yshift=-.4\covershift]current page.north west) {
         \parbox{.8\paperwidth}{
         \filright
         \color{white}\rodondo\fontsize{16}{18}\selectfont\@bookseries}
-        }; %系列丛书名称
+        }}; %系列丛书名称（留空则不显示）
         \node[anchor=south] at ([xshift=.3\outermarginwidth,yshift=-.5\paperheight]current page.north)
     {\parbox{.8\paperwidth}{%
             \filright%
@@ -129,12 +128,10 @@ BoldItalicFont = *_Bold_Italic,]{Sansation}
         }};% 封面标题与副标题
     \node[anchor=west,font=\rmfamily\bfseries\fontsize{18}{20}\itshape\selectfont,text=white] at ([xshift=1.4\outermarginwidth,yshift=-.8\covershift]current page.west) {\@edition};
     \node[anchor=west,font=\cabin\bfseries\Large,text=white] at ([xshift=1.4\outermarginwidth,yshift=\covershift]current page.west) {\@author};
-        \node[anchor=south,text=white,font=\rmfamily\fontsize{20}{22}\selectfont,] at
+        \ifdefvoid{\@pressname}{}{%
+    \node[anchor=south,text=white,font=\rmfamily\fontsize{20}{22}\selectfont,] at
         ([xshift=1.35\covershift,yshift=-.1\covershift]current page.south)  %
-    {\raisebox{-.3\covershift}{\includegraphics[width=0.2\linewidth,keepaspectratio]{\@presslogo}}\hspace*{1ex}\parbox[c][\covershift][c]{.4\textwidth}{\@pressname}};%
-    \node[anchor=south east,text=white!75,font=\cabin\fontsize{7}{9}\selectfont] at
-        ([xshift=-0.8cm,yshift=0.7cm]current page.south east)
-        {\ifdefvoid{\@compileversion}{}{\@compileversion}};
+    {\ifdefvoid{\@presslogo}{}{\raisebox{-.3\covershift}{\includegraphics[width=0.2\linewidth,keepaspectratio]{\@presslogo}}\hspace*{1ex}}\parbox[c][\covershift][c]{.4\textwidth}{\@pressname}}};%（出版社名/社徽留空则不显示）
     \end{tikzpicture}%
     \newpage
 }
