@@ -34,8 +34,12 @@ BoldItalicFont = *_Bold_Italic,]{Sansation}
 \newcommand*\edition[1]{\def\@edition{#1}}
 \newcommand*\presslogo[1]{\def\@presslogo{#1}}
 \newcommand*\pressname[1]{\def\@pressname{#1}}
+\newcommand*\compileversion[1]{\def\@compileversion{#1}}
 %\newcommand*\coverimage[1]{\def\@coverimage{#1}}
 %%----------------------------------封面信息定义--------------------------------------------------------%%
+\compileversion{}
+\bookseries{}
+\pressname{}
 \makeatother
 %%%%===============================================================%%%%%
 %%------------------------------------------------------封面设计--------------------------------------------------------%%
@@ -132,6 +136,9 @@ BoldItalicFont = *_Bold_Italic,]{Sansation}
     \node[anchor=south,text=white,font=\rmfamily\fontsize{20}{22}\selectfont,] at
         ([xshift=1.35\covershift,yshift=-.1\covershift]current page.south)  %
     {\ifdefvoid{\@presslogo}{}{\raisebox{-.3\covershift}{\includegraphics[width=0.2\linewidth,keepaspectratio]{\@presslogo}}\hspace*{1ex}}\parbox[c][\covershift][c]{.4\textwidth}{\@pressname}}};%（出版社名/社徽留空则不显示）
+    \node[anchor=south east,text=white!75,font=\cabin\fontsize{7}{9}\selectfont] at
+        ([xshift=-0.8cm,yshift=0.7cm]current page.south east)
+        {\ifdefvoid{\@compileversion}{}{\@compileversion}};
     \end{tikzpicture}%
     \newpage
 }

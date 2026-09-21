@@ -60,36 +60,8 @@
 
 \begin{figure}[htbp]
 \centering
-\begin{tikzpicture}[scale=0.9]
-% 太阳
-\node[circle, fill=yellow!80!orange, draw=orange, minimum size=10mm, font=\small] (sun) at (0,0) {太阳};
-% 地球轨道（简化为圆）
-\draw[dashed, gray!50, thick] (0,0) circle (3.5cm);
-% 地球
-\node[circle, fill=blue!60, draw=blue!80, minimum size=7mm, font=\scriptsize, text=white] (earth) at (3.5,0) {地球};
-% 太极星座（与地球保持约20度角距离，示意）
-% 示意位置取地球前方约20度，仅表示相位差
-\coordinate (taiji_center) at (1.20, 3.29);
-% 三颗卫星（等边三角形，边长约表示300万km）
-\coordinate (sc1) at ($(taiji_center)+(0,0.6)$);
-\coordinate (sc2) at ($(taiji_center)+(-0.52,-0.3)$);
-\coordinate (sc3) at ($(taiji_center)+(0.52,-0.3)$);
-% 连接臂
-\draw[red!70, thick] (sc1) -- (sc2) -- (sc3) -- cycle;
-% 卫星节点
-\foreach \pt/\lbl in {sc1/SC1, sc2/SC2, sc3/SC3}{
-  \node[circle, fill=red!80, draw=red!90, minimum size=5mm, font=\tiny, text=white] at (\pt) {};
-}
-% 标注
-\node[font=\small, text=red!80, above right=1mm] at (sc1) {太极（Taiji）};
-\node[font=\scriptsize, gray] at (1.6, 2.0) {臂长 300 万 km};
-% 20度角标注
-\draw[->, gray!70] (0.8,0) arc[start angle=0, end angle=20, radius=0.8cm];
-\node[font=\scriptsize, gray] at (1.15, 0.22) {$20^\circ$};
-% LISA 标注（简示）
-\node[font=\scriptsize, gray!70] at (-1.8, 2.8) {LISA（ESA）};
-\end{tikzpicture}
-\caption{太极（Taiji）空间引力波探测器星座示意图。三颗卫星组成近似等边三角形，臂长约 300 万公里，采用与地球保持约 $20^\circ$ 角距离的日心轨道方案。图中星座尺度与日心轨道半径未按真实比例绘制，仅用于说明轨道相位关系和三臂构型；任务参数与联合观测科学目标依据文献~\cite{Hu2017Taiji_NSR,Ruan2020Taiji_RiP,wang2024challenges,du2026taiji}改绘。}
+\includegraphics[width=0.86\textwidth]{figures/PTEP2021_Taiji_fig1.jpeg}
+\caption{太极（Taiji）空间引力波探测器星座示意图。太极三颗航天器构成臂长约 $3\times10^6\,\mathrm{km}$ 的近似等边三角形星座，星座中心沿日心轨道运行，并与地球保持约 $18^\circ$--$20^\circ$ 的角距离。该轨道构型使太极在毫赫兹频段获得长期稳定的空间干涉基线，也为与 LISA 等日心轨道任务开展联合观测提供了方向图互补性。图片引自 Luo 等~\cite{Luo2021Taiji_PTEP} 的 Figure 1。}
 \label{fig:taiji_constellation}
 \end{figure}
 
@@ -201,7 +173,7 @@ GLASS、BALROG 等框架是当前空间引力波全局拟合研究中的代表�
 
 \subsection{大质量双黑洞：从快速搜索到精确参数估计}
 
-MBHB 并合是空间引力波探测器最强的信号源，其低延迟探测对多信使天文学至关重要。Ruan 等人~\cite{ruan2023mbhb} 开发的深度学习快速搜索方法能够在\textbf{数秒内}处理一年的 LISA 模拟数据；在所采用的测试集中，该方法识别了注入的 MBHB 并合事件，并未报告误报。这一计算效率的量级优势，使其成为全局拟合分析的有力初始化工具。
+MBHB 并合是空间引力波探测器最强的信号源，其低延迟探测对多信使天文学至关重要。Ruan 等人~\cite{ruan2023mbhb} 开发的深度学习快速搜索方法能够在\textbf{数秒量级}处理一年的 LISA 模拟数据；在所采用的测试集中，该方法识别了注入的 MBHB 并合事件，并未报告误报。需要强调的是，这一结果来自特定模拟数据集和评估条件，真实任务中的误报率还需结合噪声非平稳性、数据质量标记和统计显著性评估进一步验证。即便如此，其计算效率的量级优势仍使其成为全局拟合分析的有力初始化工具。
 
 在参数估计层面，Du、Liang、Wang 等人~\cite{du2024normflow} 将归一化流方法应用于太极任务的 MBHB 参数估计，处理了太极特有的时变响应函数和混淆噪声背景，实现比传统方法快几个数量级的推断速度。Liang 等人~\cite{liang2024cnfmbhb} 进一步引入连续归一化流（CNF）和流匹配技术，在精度和速度上均有提升。Sun 等人~\cite{sun2025cvae} 的混合推断方案（CVAE + 贝叶斯采样）在三探测器（太极 + LISA + 天琴）联合观测场景下，将采样时间压缩至原来的 14.0\%，同时维持贝叶斯精度。
 
@@ -463,42 +435,53 @@ AI角色转变的深层动因不仅来自技术能力的提升，也来自引力
 
 \begin{figure}[htbp]
 \centering
-\resizebox{0.96\textwidth}{!}{%
+\resizebox{0.98\textwidth}{!}{%
 \begin{tikzpicture}[
-  node distance=7mm and 12mm,
-  rolebox/.style={draw, rounded corners=4pt, minimum width=34mm, minimum height=10mm,
-                  font=\small, align=center},
-  r1/.style={rolebox, fill=gray!15, draw=gray!50},
-  r2/.style={rolebox, fill=blue!15, draw=blue!50},
-  r3/.style={rolebox, fill=green!15, draw=green!60},
-  ex/.style={draw, rounded corners=2pt, minimum width=28mm, minimum height=7mm,
-             font=\scriptsize, align=center, fill=white},
-  arr/.style={-Stealth, thick, gray!70},
+  node distance=6mm and 15mm,
+  stage/.style={draw, rounded corners=3pt, minimum width=39mm, minimum height=10mm,
+                font=\bfseries\small, align=center},
+  s1/.style={stage, fill=gray!12, draw=gray!55},
+  s2/.style={stage, fill=blue!10, draw=blue!55},
+  s3/.style={stage, fill=green!12, draw=green!55},
+  detail/.style={draw, rounded corners=2pt, text width=36mm, minimum height=13mm,
+                 font=\scriptsize, align=center, fill=white, inner sep=3pt},
+  example/.style={draw, rounded corners=2pt, text width=36mm, minimum height=11mm,
+                  font=\scriptsize, align=center, fill=gray!5, inner sep=3pt},
+  arr/.style={-Stealth, thick, gray!65},
   transit/.style={-Stealth, very thick, blue!60}
 ]
 % 三个阶段框
-\node[r1] (tool) {“工具”阶段\\加速器};
-\node[r2, right=20mm of tool] (coll) {“协作者”阶段\\混合推断};
-\node[r3, right=20mm of coll] (disc) {“发现者”阶段\\候选算法搜索};
+\node[s1] (tool) at (0,0) {工具阶段\\加速与替代};
+\node[s2] (coll) at (5.0,0) {协作者阶段\\近似与校准};
+\node[s3] (disc) at (10.0,0) {发现者阶段\\搜索与筛查};
 
 % 阶段间箭头
 \draw[transit] (tool) -- (coll);
 \draw[transit] (coll) -- (disc);
+\node[font=\scriptsize, gray!70] at (5.0,0.72) {技术演进方向};
 
-% 代表性工作（下方）
-\node[ex, below=8mm of tool] (e1) {MF-CNN 检测\\WaveFormer 去噪};
-\node[ex, below=8mm of coll] (e2) {CVAE+MCMC\\混合推断};
-\node[ex, below=8mm of disc] (e3) {Evo-MCTS 算法发现\\beyond-GR 探测};
+% 功能定位
+\node[detail, below=7mm of tool] (d1) {核心功能\\提升搜索、去噪和推断速度};
+\node[detail, below=7mm of coll] (d2) {核心功能\\为贝叶斯采样提供初始化、先验约束和快速近似};
+\node[detail, below=7mm of disc] (d3) {核心功能\\探索候选算法空间并筛查未预期信号};
 
-\draw[arr] (tool) -- (e1);
-\draw[arr] (coll) -- (e2);
-\draw[arr] (disc) -- (e3);
+\draw[arr] (tool) -- (d1);
+\draw[arr] (coll) -- (d2);
+\draw[arr] (disc) -- (d3);
 
-% 时间轴
-\draw[->, thick, gray!50] (-1.2, -1.8) -- (10.2, -1.8) node[right,font=\scriptsize]{技术演进};
-\node[font=\scriptsize, gray] at (1.2, -2.1) {2019--2022};
-\node[font=\scriptsize, gray] at (4.8, -2.1) {2022--2024};
-\node[font=\scriptsize, gray] at (8.4, -2.1) {2024--至今};
+% 代表性工作
+\node[example, below=5mm of d1] (e1) {代表方法\\MF-CNN、WaveFormer};
+\node[example, below=5mm of d2] (e2) {代表方法\\SBI、CVAE+MCMC};
+\node[example, below=5mm of d3] (e3) {代表方法\\Evo-MCTS、beyond-GR};
+
+\draw[arr] (d1) -- (e1);
+\draw[arr] (d2) -- (e2);
+\draw[arr] (d3) -- (e3);
+
+% 参考年代
+\node[font=\scriptsize, gray!75] at (0,-3.95) {2019--2022};
+\node[font=\scriptsize, gray!75] at (5.0,-3.95) {2022--2024};
+\node[font=\scriptsize, gray!75] at (10.0,-3.95) {2024--至今};
 \end{tikzpicture}}
 \caption{AI 在引力波天文学中的角色演进示意图。图中将代表性研究概括为三个阶段：辅助传统方法的“加速工具”、与经典贝叶斯方法协同工作的“协作者”，以及辅助搜索候选算法和筛查未预期信号的“发现者”。该图为本书的方法论综合，不表示严格的历史分期；代表性工作可参见文献~\cite{wang2020deeplearning,wang2024waveformer,Dax2021RNPE,sun2025cvae,wang2025evomcts,wang2025beyondgr}。}
 \label{fig:ai_role_evolution}
@@ -540,9 +523,16 @@ Evo-MCTS和G-LNS的成功还揭示了一个更广泛的科学问题：在多大�
 
 模拟推断（SBI）方法在引力波参数估计中的成功，本质上来自其对一类通用推断问题的解决：当似然函数难以解析计算但模拟器可用时，用神经网络近似后验分布。这一问题结构在天文学和宇宙学的众多场景中普遍存在。
 
-Sun 等人~\cite{sun2025_21cm} 将 SBI 方法迁移到 21cm 森林观测的参数推断，目标是从高红移射电源的吸收谱中约束暗物质性质和星际介质热历史。尽管物理背景与引力波差异显著，但推断问题的结构高度相似：模拟代价高昂、似然函数非高斯、训练数据稀缺。生成归一化流（数据增广）+ 推断归一化流（参数估计）的双流架构，在该任务的模拟设置中实现了有效的后验分布估计，并在 Communications Physics 发表，展示了 SBI 方法的跨领域迁移潜力。
+Sun 等人~\cite{sun2025_21cm} 将 SBI 方法迁移到 21cm 森林观测的参数推断，目标是从高红移射电源的吸收谱中约束暗物质性质和星系际介质热历史。尽管物理背景与引力波差异显著，但推断问题的结构高度相似：模拟代价高昂、似然函数非高斯、训练数据稀缺。生成归一化流（数据增广）+ 推断归一化流（参数估计）的双流架构，在该任务的模拟设置中实现了有效的后验分布估计，并在 Communications Physics 发表，展示了 SBI 方法的跨领域迁移潜力。
 
 这一迁移的成功揭示了一个更广泛的趋势：引力波数据分析中发展的 AI 方法，正在成为宇宙学观测的通用工具箱。未来，随着 SKA（平方公里阵列）、CSST（中国空间站望远镜）等大型天文设施的建设，多波段、多信使的联合观测将产生海量数据，SBI 等方法的跨领域迁移价值将进一步凸显。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.96\textwidth]{figures/Sun2025_21cm_fig2.png}
+\caption{21cm 森林参数推断中的双流归一化流框架。左图展示从输入功率谱划分训练集、验证集和测试集，并先训练生成归一化流（GNF）扩充模拟样本，再训练推断归一化流（INF）获得参数后验的流程；右图展示条件归一化流及自回归有理二次样条变换模块的结构。该图说明 SBI 方法在“昂贵模拟器+有限训练样本+非高斯后验”问题中的可迁移性。图引自 Sun 等~\cite{sun2025_21cm} 的 Figure 2。}
+\label{fig:sbi_transfer_21cm}
+\end{figure}
 
 \textbf{CMB功率谱的CVAE异常检测}。跨领域迁移的另一个案例来自宇宙微波背景（CMB）功率谱分析。Sun、Wang 等人~\cite{Sun2025CVAE_CMB}将条件变分自编码器（CVAE）应用于CMB功率谱的宇宙学模型判别与异常检测。CVAE模型能够将CMB功率谱压缩到低维潜在空间，并在其测试设置中实现高保真度重建；对于参数外推情形，其可靠性仍取决于训练覆盖范围和异常判据的校准。这一工作说明，引力波参数估计中发展的CVAE方法论，在结构相近的宇宙学观测问题中也可提供有用工具，并进一步支持“问题结构相似性”是方法迁移成功的重要原因之一。
 
@@ -678,41 +668,45 @@ Evo-MCTS & Wang等 (2025) & 超越既有ML基线20.2\% & AI驱动算法发现 \\
 
 \begin{figure}[htbp]
 \centering
+\resizebox{0.98\textwidth}{!}{%
 \begin{tikzpicture}[
   font=\small,
-  node distance=8mm and 16mm,
-  milestone/.style={draw, rounded corners=4pt, minimum width=3.5cm, minimum height=0.9cm,
-                    text centered, align=center, fill=blue!8, draw=blue!40},
-  future/.style={draw, rounded corners=4pt, minimum width=3.5cm, minimum height=0.9cm,
-                 text centered, align=center, fill=orange!10, draw=orange!50, dashed},
+  milestone/.style={draw, rounded corners=3pt, text width=25mm, minimum height=10mm,
+                    text centered, align=center, fill=blue!8, draw=blue!45,
+                    font=\scriptsize, inner sep=2.5pt},
+  future/.style={draw, rounded corners=3pt, text width=25mm, minimum height=10mm,
+                 text centered, align=center, fill=orange!10, draw=orange!60,
+                 dashed, font=\scriptsize, inner sep=2.5pt},
   arr/.style={-Stealth, thick, gray!60},
 ]
 % 时间轴
-\draw[thick, gray!50] (0,-0.5) -- (0,8.5);
-\node[gray!60, font=\footnotesize] at (0,-0.8) {时间轴};
-% 里程碑
-\node[milestone] (mfcnn) at (3.5,0.5) {MF-CNN (2020)\\物理先验嵌入};
-\node[milestone] (normflow) at (3.5,2.0) {归一化流 (2022)\\SBI参数估计};
-\node[milestone] (waveformer) at (3.5,3.5) {WaveFormer (2024)\\Transformer去噪};
-\node[milestone] (cnfemri) at (3.5,5.0) {CNF-EMRI (2024)\\17维参数估计};
-\node[milestone] (evomcts) at (3.5,6.5) {Evo-MCTS (2025)\\自动算法发现};
-% 未来里程碑
-\node[future] (globalfit) at (8.5,5.0) {全局拟合原型\\$10^4$量级联合推断};
-\node[future] (realtime) at (8.5,6.5) {实时智能管道\\低延迟自动化};
-% 连接线
-\draw[arr] (0,0.5) -- (mfcnn.west);
-\draw[arr] (0,2.0) -- (normflow.west);
-\draw[arr] (0,3.5) -- (waveformer.west);
-\draw[arr] (0,5.0) -- (cnfemri.west);
-\draw[arr] (0,6.5) -- (evomcts.west);
-\draw[arr, dashed, orange!60] (cnfemri.east) -- (globalfit.west);
-\draw[arr, dashed, orange!60] (evomcts.east) -- (realtime.west);
-% 年份标注
-\foreach \y/\yr in {0.5/2020, 2.0/2022, 3.5/2024, 5.0/2024, 6.5/2025} {
-  \node[gray!70, font=\scriptsize] at (-0.6,\y) {\yr};
-  \draw[gray!40, thin] (-0.2,\y) -- (0.2,\y);
+\draw[-Stealth, very thick, gray!55] (0,0) -- (15.2,0)
+  node[right,font=\scriptsize,gray!70]{时间};
+\foreach \x/\yr in {0.8/2020, 3.2/2022, 6.4/2024, 9.8/2025, 12.6/2030, 14.4/2035} {
+  \draw[gray!45, thin] (\x,-0.12) -- (\x,0.12);
+  \node[font=\scriptsize, gray!75] at (\x,-0.35) {\yr};
 }
-\end{tikzpicture}
+
+% 里程碑
+\node[milestone] (mfcnn) at (0.8,1.35) {MF-CNN\\物理先验嵌入};
+\node[milestone] (normflow) at (3.2,-1.35) {归一化流\\SBI参数估计};
+\node[milestone] (waveformer) at (5.6,1.35) {WaveFormer\\Transformer去噪};
+\node[milestone] (cnfemri) at (7.5,-1.35) {CNF-EMRI\\17维参数估计};
+\node[milestone] (evomcts) at (10.0,1.35) {Evo-MCTS\\自动算法发现};
+
+% 未来里程碑
+\node[future] (globalfit) at (12.5,-1.35) {全局拟合原型\\$10^4$量级联合推断};
+\node[future] (realtime) at (14.2,1.35) {实时智能管道\\低延迟自动化};
+
+% 连接线
+\draw[arr] (0.8,0.12) -- (mfcnn.south);
+\draw[arr] (3.2,-0.12) -- (normflow.north);
+\draw[arr] (5.6,0.12) -- (waveformer.south);
+\draw[arr] (7.5,-0.12) -- (cnfemri.north);
+\draw[arr] (10.0,0.12) -- (evomcts.south);
+\draw[arr, dashed, orange!70] (12.5,-0.12) -- (globalfit.north);
+\draw[arr, dashed, orange!70] (14.2,0.12) -- (realtime.south);
+\end{tikzpicture}}
 \caption{引力波AI方法论里程碑时间线。蓝色实线框为本书讨论的已发表或已完成研究工作，橙色虚线框为面向下一代探测器和空间引力波任务的阶段性研究目标。从MF-CNN到Evo-MCTS，相关工作展示了从“物理先验嵌入”到“自动算法发现”的方法论拓展；未来节点为路线图式概括，并非任务正式时间表。代表性工作参见文献~\cite{wang2020deeplearning,wang2022normflow,wang2024waveformer,liang2024cnfemri,sun2025cvae,wang2025evomcts,wang2024challenges,du2026taiji}。}
 \label{fig:ai_timeline}
 \end{figure}
@@ -734,10 +728,10 @@ Evo-MCTS & Wang等 (2025) & 超越既有ML基线20.2\% & AI驱动算法发现 \\
 \hline
 \textbf{探测器} & \textbf{臂长} & \textbf{低频截止} & \textbf{年事件率} & \textbf{AI关键需求} \\
 \hline
-Advanced LIGO O4 & 4 km & $\sim$10 Hz & $\sim$百量级候选 & 辅助加速 \\
+Advanced LIGO O4 & 4 km & $\sim$10 Hz & 百量级公开候选 & 辅助加速 \\
 爱因斯坦望远镜（ET） & 10 km（地下） & $\sim$2--3 Hz & $\sim 10^5$量级 & 高度自动化 \\
 宇宙探索者（CE） & 40 km & $\sim$5 Hz & $\sim 10^5$量级 & 高度自动化 \\
-太极/LISA & 百万 km（空间） & $\sim 0.1$ mHz & 依源类而定 & 全局拟合 \\
+太极/LISA & 百万 km（空间） & 毫赫兹窗口 & 依源类而定 & 全局拟合 \\
 \hline
 \end{tabular}
 \end{table}
@@ -824,7 +818,7 @@ AI方法在EOS约束中的作用包括：SBI方法对包含潮汐形变参数的
 
 本书以“人工智能与统计推断的交叉融合”为主线，系统梳理了引力波天文学数据分析方法论的前沿进展。从第一部的理论基础出发，经由第二部对经典方法局限性的深入分析，到第三、四部对 AI 新方法及其与物理融合的系统介绍，最终以第五部对未来挑战与发展趋势的展望收尾——全书构成一个逻辑完整、层次递进的方法论体系。
 
-本书写作的学术背景，是引力波天文学从发现阶段走向大样本和空间探测阶段的关键时期：从2015年GW150914的首次探测，到即将到来的太极/LISA空间引力波探测器时代，数据分析面临的计算挑战从“困难但可解决”演变为“直接传统流程难以承担”。正是这种现实需求，驱动了本书所介绍的每一个方法论创新——每一项创新都不是为了创新而创新，而是为了解决引力波天文学前进道路上的具体障碍。这种“问题驱动的方法论创新”精神，贯穿了本书的始终，也是评价这些方法论价值的正确标准。
+本书写作的学术背景，是引力波天文学从发现阶段走向大样本和空间探测阶段的关键时期：从2015年GW150914的首次直接探测，到即将到来的太极/LISA空间引力波探测器时代，数据分析面临的计算挑战从“困难但可解决”演变为“直接传统流程难以承担”。正是这种现实需求，驱动了本书所介绍的每一个方法论创新——每一项创新都不是为了创新而创新，而是为了解决引力波天文学前进道路上的具体障碍。这种“问题驱动的方法论创新”精神，贯穿了本书的始终，也是评价这些方法论价值的正确标准。
 
 引力波天文学的成功，既是探测器技术的胜利（将应变灵敏度提升至$10^{-23}$量级），也是数据分析方法的胜利（从海量噪声数据中提取微弱的时空信号）。本书所记录的人工智能方法论创新，是这一数据分析方法演进中的重要组成部分。它们的价值不在于制造技术噱头，而在于把新的计算工具放回引力波天文学的严格物理和统计约束之中，检验其是否真正能够服务于可靠的科学发现。
 
@@ -945,8 +939,10 @@ Evo-MCTS的成功还揭示了一个重要的认识论洞察：人类专家的算
   m3/.style={mainbox, fill=green!15, draw=green!60},
   itembox/.style={draw, rounded corners=2pt, minimum width=38mm, minimum height=7.5mm,
                   font=\scriptsize, align=center, fill=gray!8},
-  arr/.style={-Stealth, thick, gray!60},
-  outp/.style={draw, rounded corners=4pt, minimum width=64mm, minimum height=9mm,
+  arr/.style={-Stealth, very thick, gray!78, shorten >=1.5pt, shorten <=1.5pt},
+  feed/.style={-Stealth, line width=1.1pt, gray!78, shorten >=1.5pt, shorten <=1.5pt},
+  trunk/.style={line width=1.15pt, gray!70},
+  outp/.style={draw, rounded corners=4pt, minimum width=68mm, minimum height=9mm,
                font=\small, align=center, fill=yellow!20, draw=yellow!70!black},
 ]
 
@@ -963,15 +959,20 @@ Evo-MCTS的成功还揭示了一个重要的认识论洞察：人类专家的算
 \node[itembox] (c1) at (10.4,-1.2) {Evo-MCTS\\+20.2\%超基线};
 \node[itembox] (c2) at (10.4,-2.2) {领域知识集成\\性能+115\%};
 
-\draw[arr] (l1) -- (a1); \draw[arr] (a1) -- (a2);
-\draw[arr] (l2) -- (b1); \draw[arr] (b1) -- (b2);
-\draw[arr] (l3) -- (c1); \draw[arr] (c1) -- (c2);
-
 % 汇聚到核心目标
-\node[outp] (goal) at (5.2,-3.55) {智能化引力波数据分析体系\\物理一致 · 计算高效 · 可解释可信};
-\draw[arr] (a2.south) -- ++(0,-0.35) -| (goal.north west);
-\draw[arr] (b2.south) -- (goal.north);
-\draw[arr] (c2.south) -- ++(0,-0.35) -| (goal.north east);
+\coordinate (j1) at (0,-3.05);
+\coordinate (j2) at (5.2,-3.05);
+\coordinate (j3) at (10.4,-3.05);
+\coordinate (hub) at (5.2,-3.05);
+\node[outp] (goal) at (5.2,-4.05) {智能化引力波数据分析体系\\物理一致 · 计算高效 · 可解释可信};
+\draw[feed] (a2.south) -- (j1);
+\draw[feed] (b2.south) -- (j2);
+\draw[feed] (c2.south) -- (j3);
+\draw[trunk] (j1) -- (j3);
+\fill[gray!75] (j1) circle (1.2pt);
+\fill[gray!75] (j2) circle (1.2pt);
+\fill[gray!75] (j3) circle (1.2pt);
+\draw[feed] (hub) -- (goal.north);
 \end{tikzpicture}}
 \caption{本书方法论体系三条主线与核心目标示意图。三条主线分别强调物理先验驱动的可解释性、精确协同的混合推断、以及LLM驱动的自动算法发现，共同指向“物理一致、计算高效、可解释可信”的智能化引力波数据分析体系。该图为全书综合性总结，相关定量指标来自本书前文讨论的代表性研究~\cite{wang2020deeplearning,tian2025cnn,Dax2021RNPE,liang2026sbireview,sun2025cvae,wang2025evomcts,schafer2023mlgwsc1}。}
 \label{fig:three_mainlines}
@@ -1064,7 +1065,7 @@ Evo-MCTS在引力波检测算法自动发现上的成功，提出了一个具有
 三个核心开放问题指向未来十年的研究方向：空间引力波全局拟合的工程可行化（参数空间维度可达$10^5$--$10^7$量级的联合推断）~\cite{wang2024challenges,du2026taiji}、SBI方法精度保证与统计一致性验证框架的建立~\cite{liang2026sbireview}、以及AI驱动科学发现的泛化边界与理论理解。这三个方向的协同推进，将决定智能化引力波天文学能否在太极/LISA时代实现从“单次精密分析”到“持续自动推断”的可靠转变。
 
 \chapter*{编后记}
-\addcontentsline{toc}{chapter}{编后记}
+\ifdefined\HCode\else\addcontentsline{toc}{chapter}{编后记}\fi
 
 本书的写作历程，本身就是一次关于“方法论演进”的亲历记录。
 
@@ -1073,8 +1074,6 @@ Evo-MCTS在引力波检测算法自动发现上的成功，提出了一个具有
 此后数年，研究方向沿着两条相互交织的线索延伸。一条是方法的深化：从CNN到归一化流，从离散流到连续归一化流，从单一模型到混合推断，每一步都在回答“如何在保持物理一致性的同时实现更高的计算效率”这一核心问题。另一条是应用的拓展：从地面探测器到空间探测器，从双黑洞并合到极端质量比旋入，从信号识别到参数估计再到去噪，每一步都在回答“如何将方法论创新转化为具体的科学能力”。这两条线索的交织，构成了本书的主要内容。
 
 Evo-MCTS的工作是这一历程中最出乎意料的转折。当LLM引导的进化搜索在MLGWSC-1基准上发现优于多个人工设计基线的候选算法时，我更加清楚地感受到，“AI驱动科学发现”已经可以在受控基准和可验证任务中形成具体的研究问题。更重要的是，这一候选算法是可解释的——算法由标准信号处理模块组成，物理学家可以逐行审查其逻辑。可解释性与高性能的结合，是这一工作最令我满意的地方。这也让我意识到，引力波数据分析的独特价值不仅在于科学目标本身，更在于它为人工智能方法论的发展提供了一个理想的试验场：物理约束清晰、评估标准客观、可解释性要求严格。
-
-\textbf{关于合作者}。本书的研究工作是团队协作的成果。梁迪在SBI和CNF方法上的深入工作，特别是对EMRI 17维参数估计的机器学习方法探索，是本书第6章的核心内容；杜明辉在太极数据分析和高保真仿真方面的系统工作，为第10章提供了坚实的基础；孙晓晨在CVAE混合推断和CMB宇宙学应用方面的创新，展示了方法论的跨领域价值；赵子豪在G-LNS和空间引力波统一检测方面的工作，丰富了第8章和第5章的内容；许晓宇在引力波去噪和非稳态噪声处理方面的系统研究，构成了第7章的重要组成部分；田宇轩在CNN可解释性方面的工作，为第5章和第9章提供了物理验证的视角；阮文韬在MBHB快速搜索方面的工作，是第5章和第10章的重要参考；云浩在EMRI深度学习检测方面的工作，为第5章提供了空间引力波的应用案例；王宇轩在beyond-GR信号探测方面的工作，为第11章的弱模型依赖异常筛选讨论提供了实验基础。没有这些合作者的贡献，本书的许多核心内容将无从呈现。
 
 \textbf{对未来研究者的建议}。引力波AI方法论是一个快速发展的领域，进入这一领域的研究者需要同时具备引力波物理的基础知识和机器学习的实践能力。我的建议是：首先深入理解匹配滤波和贝叶斯推断的物理基础（第3章），因为这是评判任何AI方法是否“物理上合理”的参照系；其次系统学习归一化流和SBI的理论框架（第6章），这是当前引力波参数估计最活跃的方法论前沿；最后关注可解释性和验证框架（第5、9章），因为在严肃科学应用中，方法的可信度与性能同等重要。
 
@@ -1088,12 +1087,10 @@ Evo-MCTS的工作是这一历程中最出乎意料的转折。当LLM引导的进
 
 引力波天文学是一个年轻的领域，AI方法在其中的应用更是方兴未艾。本书所呈现的，是这一交叉领域在特定时间节点上的方法论快照。随着空间引力波探测器的建设推进和AI技术的持续演进，这一快照将很快被新的进展所超越。但方法论的演进逻辑——从黑箱到可解释、从近似替代到精确协同、从单一方法到自动发现——将持续指引这一领域的前行方向。
 
-感谢北京师范大学天文系和中国科学院力学研究所提供的研究平台，感谢中国博士后科学基金对本书相关研究工作的资助。
+感谢曹周键教授对本书相关研究工作的支持与指导。感谢北京师范大学、中国科学院理论物理研究所、鹏城国家实验室、中国科学院大学国际理论物理中心（亚太地区）、中国科学院力学研究所、东北大学等单位提供的研究平台与支持。
 
 \vspace{2em}
 \begin{flushright}
 王赫\\
 2026年于北京
 \end{flushright}
-
-\theendnotes
