@@ -1,0 +1,175 @@
+<!DOCTYPE html> 
+<html lang='en-US' xml:lang='en-US'> 
+<head> <title></title> 
+<meta charset='utf-8' /> 
+<meta content='TeX4ht (https://tug.org/tex4ht/)' name='generator' /> 
+<meta content='width=device-width,initial-scale=1' name='viewport' /> 
+<link href='book_html.css' rel='stylesheet' type='text/css' /> 
+<meta content='book_html.tex' name='src' /> 
+<script>window.MathJax = { tex: { tags: "ams", }, }; </script> 
+<script async='async' id='MathJax-script' src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js' type='text/javascript'></script>  
+<link href='assets/style.css' rel='stylesheet' type='text/css' /> 
+</head><header class='site-header'><div class='site-wrap'><a class='site-title' href='index.html'> 
+引力波数据分析中的人工智能方法</a> <span class='site-sub'>在线开源版</span></div></header> 
+<div class='content'> 
+
+     <div class='cover'><img alt='引力波数据分析中的人工智能方法' class='cover-banner' src='figures/cover_banner.png' /><div class='cover-meta'><span class='cover-author'>王赫</span><span class='cover-badge'>初稿</span></div><div class='cover-actions'><a class='btn btn-primary' href='book_html.html'>开始阅读</a><a class='btn' href='book_main.pdf'>下载 PDF <span class='btn-note'>约 18 MB</span></a><a class='btn' href='https://github.com/iphysresearch/gwai-monograph'>GitHub 仓库</a></div><div class='cover-ver'>编译版本：2026-10-06 23:28</div></div><div class='intro'><h2 class='intro-h'>本书简介</h2><p>本书系统梳理人工智能方法在引力波数据分析中的应用，从信号识别、参数估计到模拟推断，构建物理驱动与数据驱动相融合的方法论体系。全书分为五个部分、共十二章，逻辑递进地呈现从经典方法的局限，到机器学习、生成模型与模拟推断、智能化搜索，再到空间引力波探测前沿挑战与展望的完整脉络。</p><p class='intro-aud'>适合引力波数据分析、机器学习与 AI for Science方向的研究生、研究者与工程师阅读；不要求引力波物理专业背景。</p></div>
+                                                                          
+
+                                                                          
+<!-- l. 145 --><p class='indent'>
+</p>
+     <div class='tableofcontents'><details class='toc-chap'><summary><a href='book_htmlli1.html#_' id='QQ2-2-1'>目录</a></summary><div class='toc-secs'>
+</div></details>
+<details class='toc-chap'><summary><a href='book_htmlli2.html#_1' id='QQ2-3-2'>前言</a></summary><div class='toc-secs'>
+<div class='toc-sec'><a href='book_htmlli2.html#_2' id='QQ2-3-3'>本书的写作动机</a></div>
+<div class='toc-sec'><a href='book_htmlli2.html#_3' id='QQ2-3-4'>全书结构</a></div>
+<div class='toc-sec'><a href='book_htmlli2.html#_4' id='QQ2-3-5'>读者定位</a></div>
+<div class='toc-sec'><a href='book_htmlli2.html#_5' id='QQ2-3-6'>代表性研究成果</a></div>
+<div class='toc-sec'><a href='book_htmlli2.html#_6' id='QQ2-3-7'>致谢</a></div>
+</div></details>
+<details class='toc-chap'><summary><a href='book_htmlli3.html#_7' id='QQ2-4-8'>主要缩略语表</a></summary><div class='toc-secs'>
+</div></details>
+<div class='toc-part'>I  <a href='book_htmlpa1.html#_8' id='QQ2-5-9'>理论基础与背景</a></div>
+<details class='toc-chap'><summary>1 <a href='book_htmlch1.html#_9' id='QQ2-6-10'>绪论</a></summary><div class='toc-secs'>
+<div class='toc-sec'>1.1 <a href='book_htmlch1.html#_10' id='QQ2-6-11'>引力波天文学的历史与发展</a></div>
+<div class='toc-sec'>1.2 <a href='book_htmlch1.html#_13' id='QQ2-6-14'>国际与国内探测计划概览</a></div>
+<div class='toc-sec'>1.3 <a href='book_htmlch1.html#_15' id='QQ2-6-17'>引力波数据分析的任务层次与挑战</a></div>
+<div class='toc-sec'>1.4 <a href='book_htmlch1.html#_20' id='QQ2-6-22'>本书的研究主题、目标与创新点</a></div>
+<div class='toc-sec'>1.5 <a href='book_htmlch1.html#_23' id='QQ2-6-25'>本书章节安排</a></div>
+<div class='toc-sec'>1.6 <a href='book_htmlch1.html#_24' id='QQ2-6-26'>本章小结</a></div>
+</div></details>
+<details class='toc-chap'><summary>2 <a href='book_htmlch2.html#_25' id='QQ2-7-27'>引力波信号与噪声建模</a></summary><div class='toc-secs'>
+<div class='toc-sec'>2.1 <a href='book_htmlch2.html#_26' id='QQ2-7-28'>引力波的基本理论与波形模型</a></div>
+<div class='toc-sec'>2.2 <a href='book_htmlch2.html#_30' id='QQ2-7-33'>引力波源类型与多模态信号特征</a></div>
+<div class='toc-sec'>2.3 <a href='book_htmlch2.html#_36' id='QQ2-7-39'>探测器噪声性质</a></div>
+<div class='toc-sec'>2.4 <a href='book_htmlch2.html#_39' id='QQ2-7-43'>信号与噪声的数学建模方法</a></div>
+<div class='toc-sec'>2.5 <a href='book_htmlch2.html#_40' id='QQ2-7-45'>数据预处理与特征提取</a></div>
+<div class='toc-sec'>2.6 <a href='book_htmlch2.html#_41' id='QQ2-7-50'>本章小结</a></div>
+</div></details>
+<div class='toc-part'>II  <a href='book_htmlpa2.html#_42' id='QQ2-8-51'>经典方法及其可扩展性边界</a></div>
+<details class='toc-chap'><summary>3 <a href='book_htmlch3.html#_43' id='QQ2-9-52'>经典引力波数据分析方法</a></summary><div class='toc-secs'>
+<div class='toc-sec'>3.1 <a href='book_htmlch3.html#_44' id='QQ2-9-53'>匹配滤波与模板库构建</a></div>
+<div class='toc-sec'>3.2 <a href='book_htmlch3.html#_47' id='QQ2-9-59'>贝叶斯推断与参数估计框架</a></div>
+<div class='toc-sec'>3.3 <a href='book_htmlch3.html#_50' id='QQ2-9-64'>经典方法的实际应用与局限</a></div>
+<div class='toc-sec'>3.4 <a href='book_htmlch3.html#_52' id='QQ2-9-67'>本章小结</a></div>
+</div></details>
+<details class='toc-chap'><summary>4 <a href='book_htmlch4.html#_53' id='QQ2-10-68'>高维参数空间与多模态推断挑战</a></summary><div class='toc-secs'>
+<div class='toc-sec'>4.1 <a href='book_htmlch4.html#_54' id='QQ2-10-69'>参数空间的维度灾难</a></div>
+<div class='toc-sec'>4.2 <a href='book_htmlch4.html#_58' id='QQ2-10-73'>多源信号重叠与分离</a></div>
+<div class='toc-sec'>4.3 <a href='book_htmlch4.html#_61' id='QQ2-10-77'>非平稳噪声下的信号检测困难</a></div>
+<div class='toc-sec'>4.4 <a href='book_htmlch4.html#_63' id='QQ2-10-80'>计算复杂性与可扩展性边界</a></div>
+<div class='toc-sec'>4.5 <a href='book_htmlch4.html#_65' id='QQ2-10-83'>数值相对论波形与代理模型</a></div>
+<div class='toc-sec'>4.6 <a href='book_htmlch4.html#fishercramerrao' id='QQ2-10-90'>Fisher矩阵与Cramér-Rao界的适用边界</a></div>
+<div class='toc-sec'>4.7 <a href='book_htmlch4.html#_71' id='QQ2-10-96'>本章小结</a></div>
+</div></details>
+<div class='toc-part'>III  <a href='book_htmlpa3.html#_72' id='QQ2-11-97'>人工智能数据分析方法</a></div>
+<details class='toc-chap'><summary>5 <a href='book_htmlch5.html#_73' id='QQ2-12-98'>引力波信号识别中的机器学习方法</a></summary><div class='toc-secs'>
+<div class='toc-sec'>5.1 <a href='book_htmlch5.html#_74' id='QQ2-12-99'>从匹配滤波到机器学习的方法动机</a></div>
+<div class='toc-sec'>5.2 <a href='book_htmlch5.html#_77' id='QQ2-12-102'>卷积神经网络与集成架构</a></div>
+<div class='toc-sec'>5.3 <a href='book_htmlch5.html#_79' id='QQ2-12-106'>物理驱动的网络设计与波形包络约束</a></div>
+<div class='toc-sec'>5.4 <a href='book_htmlch5.html#一1' id='QQ2-12-107'>空间引力波信号识别：多源统一检测</a></div>
+<div class='toc-sec'>5.5 <a href='book_htmlch5.html#cnn1' id='QQ2-12-111'>CNN优化、可解释性与超参数选择</a></div>
+<div class='toc-sec'>5.6 <a href='book_htmlch5.html#_86' id='QQ2-12-115'>超越广义相对论的信号探测</a></div>
+<div class='toc-sec'>5.7 <a href='book_htmlch5.html#mlgwsc1' id='QQ2-12-118'>标准化评测与当前局限：MLGWSC-1的启示</a></div>
+<div class='toc-sec'>5.8 <a href='book_htmlch5.html#_100' id='QQ2-12-139'>本章小结</a></div>
+</div></details>
+<details class='toc-chap'><summary>6 <a href='book_htmlch6.html#_101' id='QQ2-13-140'>生成模型与模拟推断</a></summary><div class='toc-secs'>
+<div class='toc-sec'>6.1 <a href='book_htmlch6.html#sbi1' id='QQ2-13-142'>贝叶斯推断的计算瓶颈与SBI动机</a></div>
+<div class='toc-sec'>6.2 <a href='book_htmlch6.html#一5' id='QQ2-13-147'>归一化流的理论框架与结构选择</a></div>
+<div class='toc-sec'>6.3 <a href='book_htmlch6.html#一一-sbi-' id='QQ2-13-153'>连续归一化流与流匹配：下一代 SBI 方法</a></div>
+<div class='toc-sec'>6.4 <a href='book_htmlch6.html#sbi21cm' id='QQ2-13-156'>SBI的跨领域迁移：21cm森林案例</a></div>
+<div class='toc-sec'>6.5 <a href='book_htmlch6.html#_105' id='QQ2-13-159'>本章小结</a></div>
+</div></details>
+<details class='toc-chap'><summary>7 <a href='book_htmlch7.html#_106' id='QQ2-14-161'>智能信号分离与去噪</a></summary><div class='toc-secs'>
+<div class='toc-sec'>7.1 <a href='book_htmlch7.html#_107' id='QQ2-14-162'>从预处理到多信使预警的去噪动机</a></div>
+<div class='toc-sec'>7.2 <a href='book_htmlch7.html#_108' id='QQ2-14-163'>传统去噪方法与深度学习的对比</a></div>
+<div class='toc-sec'>7.3 <a href='book_htmlch7.html#waveformertransformer-' id='QQ2-14-165'>WaveFormer：Transformer 架构的引力波去噪</a></div>
+<div class='toc-sec'>7.4 <a href='book_htmlch7.html#_112' id='QQ2-14-169'>长时旋近去噪与并合时刻预测</a></div>
+<div class='toc-sec'>7.5 <a href='book_htmlch7.html#_114' id='QQ2-14-172'>非稳态噪声下的鲁棒信号提取</a></div>
+<div class='toc-sec'>7.6 <a href='book_htmlch7.html#_118' id='QQ2-14-177'>本章小结</a></div>
+</div></details>
+<div class='toc-part'>IV  <a href='book_htmlpa4.html#_120' id='QQ2-15-180'>物理约束与智能方法融合</a></div>
+<details class='toc-chap'><summary>8 <a href='book_htmlch8.html#_121' id='QQ2-16-181'>智能启发式搜索与算法优化</a></summary><div class='toc-secs'>
+<div class='toc-sec'>8.1 <a href='book_htmlch8.html#_122' id='QQ2-16-182'>算法设计作为搜索问题</a></div>
+<div class='toc-sec'>8.2 <a href='book_htmlch8.html#llm' id='QQ2-16-186'>LLM驱动的自动启发式设计</a></div>
+<div class='toc-sec'>8.3 <a href='book_htmlch8.html#evomcts' id='QQ2-16-191'>Evo-MCTS与可解释算法发现</a></div>
+<div class='toc-sec'>8.4 <a href='book_htmlch8.html#mlgwsc11' id='QQ2-16-200'>引力波探测中的MLGWSC-1基准验证</a></div>
+<div class='toc-sec'>8.5 <a href='book_htmlch8.html#_134' id='QQ2-16-211'>可解释算法路径与领域知识集成</a></div>
+<div class='toc-sec'>8.6 <a href='book_htmlch8.html#_137' id='QQ2-16-215'>算法发现的可重复性与基准测试规范</a></div>
+<div class='toc-sec'>8.7 <a href='book_htmlch8.html#_140' id='QQ2-16-220'>本章小结</a></div>
+</div></details>
+<details class='toc-chap'><summary>9 <a href='book_htmlch9.html#_141' id='QQ2-17-221'>物理驱动与数据驱动的协同推断</a></summary><div class='toc-secs'>
+<div class='toc-sec'>9.1 <a href='book_htmlch9.html#_142' id='QQ2-17-223'>融合动机：互补缺陷与协同需求</a></div>
+<div class='toc-sec'>9.2 <a href='book_htmlch9.html#_146' id='QQ2-17-228'>物理先验嵌入：结构设计与采样策略</a></div>
+<div class='toc-sec'>9.3 <a href='book_htmlch9.html#_150' id='QQ2-17-232'>混合推断：精确协同而非近似替代</a></div>
+<div class='toc-sec'>9.4 <a href='book_htmlch9.html#_154' id='QQ2-17-239'>可解释性作为融合的验证工具</a></div>
+<div class='toc-sec'>9.5 <a href='book_htmlch9.html#_160' id='QQ2-17-245'>融合方法的前景与挑战</a></div>
+<div class='toc-sec'>9.6 <a href='book_htmlch9.html#_165' id='QQ2-17-250'>物理信息神经网络在引力波中的应用前景</a></div>
+<div class='toc-sec'>9.7 <a href='book_htmlch9.html#_170' id='QQ2-17-257'>本章小结</a></div>
+</div></details>
+<div class='toc-part'>V  <a href='book_htmlpa5.html#_171' id='QQ2-18-258'>空间任务挑战与发展展望</a></div>
+<details class='toc-chap'><summary>10 <a href='book_htmlch10.html#_172' id='QQ2-19-259'>空间引力波探测任务的数据挑战</a></summary><div class='toc-secs'>
+<div class='toc-sec'>10.1 <a href='book_htmlch10.html#_173' id='QQ2-19-260'>空间引力波探测器的科学目标与数据特征</a></div>
+<div class='toc-sec'>10.2 <a href='book_htmlch10.html#_178' id='QQ2-19-266'>全局拟合：空间引力波数据分析的核心难题</a></div>
+<div class='toc-sec'>10.3 <a href='book_htmlch10.html#_180' id='QQ2-19-271'>主要波源类型的人工智能分析方法</a></div>
+<div class='toc-sec'>10.4 <a href='book_htmlch10.html#_183' id='QQ2-19-275'>非稳态噪声：从理想模拟到真实管道</a></div>
+<div class='toc-sec'>10.5 <a href='book_htmlch10.html#_185' id='QQ2-19-278'>高保真仿真与现实探测管道的构建</a></div>
+<div class='toc-sec'>10.6 <a href='book_htmlch10.html#_186' id='QQ2-19-281'>数据分析管道的系统工程挑战</a></div>
+<div class='toc-sec'>10.7 <a href='book_htmlch10.html#_191' id='QQ2-19-287'>太极数据分析挑战赛与开放科学</a></div>
+<div class='toc-sec'>10.8 <a href='book_htmlch10.html#_196' id='QQ2-19-292'>本章小结</a></div>
+</div></details>
+<details class='toc-chap'><summary>11 <a href='book_htmlch11.html#_197' id='QQ2-20-293'>智能引力波天文学的发展趋势</a></summary><div class='toc-secs'>
+<div class='toc-sec'>11.1 <a href='book_htmlch11.html#_198' id='QQ2-20-294'>从工具到协作者：人工智能在科学中的角色转变</a></div>
+<div class='toc-sec'>11.2 <a href='book_htmlch11.html#llm-evomcts-glns-' id='QQ2-20-299'>LLM 驱动的自动算法发现：Evo-MCTS 与 G-LNS 的启示</a></div>
+<div class='toc-sec'>11.3 <a href='book_htmlch11.html#sbi-2' id='QQ2-20-302'>跨领域迁移：SBI 方法从引力波到宇宙学观测</a></div>
+<div class='toc-sec'>11.4 <a href='book_htmlch11.html#一9' id='QQ2-20-312'>下一代探测器与人工智能方法的协同演化</a></div>
+<div class='toc-sec'>11.5 <a href='book_htmlch11.html#_204' id='QQ2-20-315'>量子传感与引力波探测的未来</a></div>
+<div class='toc-sec'>11.6 <a href='book_htmlch11.html#_208' id='QQ2-20-320'>引力波天文学与多信使科学的深度融合</a></div>
+<div class='toc-sec'>11.7 <a href='book_htmlch11.html#_209' id='QQ2-20-321'>本章小结</a></div>
+</div></details>
+<details class='toc-chap'><summary>12 <a href='book_htmlch12.html#_210' id='QQ2-21-322'>结语：面向可信智能引力波天文学</a></summary><div class='toc-secs'>
+<div class='toc-sec'>12.1 <a href='book_htmlch12.html#_211' id='QQ2-21-323'>本书主要贡献总结</a></div>
+<div class='toc-sec'>12.2 <a href='book_htmlch12.html#_212' id='QQ2-21-327'>本书方法论体系的内在逻辑</a></div>
+<div class='toc-sec'>12.3 <a href='book_htmlch12.html#_217' id='QQ2-21-333'>对未来研究方向的整体展望</a></div>
+<div class='toc-sec'>12.4 <a href='book_htmlch12.html#_220' id='QQ2-21-339'>结语：可信协同的方法论</a></div>
+<div class='toc-sec'>12.5 <a href='book_htmlch12.html#_221' id='QQ2-21-340'>本章小结</a></div>
+</div></details>
+<details class='toc-chap'><summary><a href='book_htmlli4.html#_222' id='QQ2-22-341'>编后记</a></summary><div class='toc-secs'>
+</div></details>
+<details class='toc-chap'><summary><a href='book_htmlli5.html#_223' id='QQ2-23-342'>参考文献</a></summary><div class='toc-secs'>
+</div></details></div>
+                                                                          
+
+                                                                          
+
+                                                                          
+
+                                                                          
+
+                                                                          
+
+                                                                          
+
+                                                                          
+
+                                                                          
+
+                                                                          
+
+                                                                          
+
+                                                                          
+
+                                                                          
+
+                                                                          
+
+                                                                          
+</div> 
+<footer class='site-footer'><p class='foot-main'>引力波数据分析中的人工智能方法 · 王赫 · 在线开源版（初稿）</p><p class='foot-sub'>本书持续更新中，欢迎通过 <a href='https://github.com/iphysresearch/gwai-monograph/issues'>GitHub Issues</a> 提交勘误与建议。</p><p class='foot-sub'>版权归作者所有；转载或引用请注明出处。</p></footer> 
+ 
+</html>
+                                                                          
+
+

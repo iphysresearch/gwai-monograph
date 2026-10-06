@@ -1,0 +1,121 @@
+<!DOCTYPE html> 
+<html lang='en-US' xml:lang='en-US'> 
+<head><title>前</title> 
+<meta charset='utf-8' /> 
+<meta content='TeX4ht (https://tug.org/tex4ht/)' name='generator' /> 
+<meta content='width=device-width,initial-scale=1' name='viewport' /> 
+<link href='book_html.css' rel='stylesheet' type='text/css' /> 
+<meta content='book_html.tex' name='src' /> 
+<script>window.MathJax = { tex: { tags: "ams", }, }; </script> 
+<script async='async' id='MathJax-script' src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js' type='text/javascript'></script>  
+<link href='assets/style.css' rel='stylesheet' type='text/css' /> 
+</head><header class='site-header'><div class='site-wrap'><a class='site-title' href='index.html'> 
+引力波数据分析中的人工智能方法</a> <span class='site-sub'>在线开源版</span></div></header> 
+<div class='content'> 
+ <!-- l. 1 --><div class='crosslinks'><p class='noindent'>言<a href='book_htmlli3.html'>next</a>] [<a href='book_htmlli1.html'>prev</a>] [<a href='book_htmlli1.html#tailbook_htmlli1.html'>prev-tail</a>] [<a href='#tailbook_htmlli2.html'>tail</a>] [<a href='book_html.html#book_htmlli2.html'>up</a>] </p></div>
+     <h2 class='likechapterHead' id='_1'>  <a id='x3-2000'></a>前言</h2>
+<!-- l. 5 --><p class='noindent'>引力波天文学正在从以个别事件确证为中心的发现阶段，进入以大样本统计、低延迟预警和复杂源分离为特征的系统观测阶段。2015年，LIGO
+首次直接探测到双黑洞并合产生的引力波事件 GW150914；此后十余年间，LIGO–Virgo–KAGRA
+联合观测已形成持续扩展的引力波暂态目录。第四次观测运行（O4）已于2025年11月18日结束；随着 O4a 数据对应的
+GWTC-4.0 目录发布 [<a href='book_htmlli5.html#XAbac2025GWTC4'>1</a>]，公开候选样本进一步扩展，引力波天文学正在进入更依赖规模化数据分析的新阶段。
+</p><!-- l. 7 --><p class='indent'>     这一进展同时暴露出传统分析框架的可扩展性边界。对于地面探测中的紧致双星并合搜索，匹配滤波仍是最成熟、最可靠的标准方法之一，但模板库规模会随着参数空间维度、波形复杂度和精度要求的提高而迅速增长。对于空间引力波探测，数据分析问题更为复杂：LISA、太极和天琴所覆盖的毫赫兹频段中，预计将同时包含大量银河系双星、超大质量黑洞并合、极端质量比旋入以及可能的随机背景信号；全局拟合必须在高维、强相关、多源混叠的参数空间中同时估计信号和噪声模型。尤其对于极端质量比旋入等长时标、强相对论、参数高度相关的系统，传统贝叶斯采样方法在现实计算预算下难以充分探索后验分布，限制了其在大规模空间任务中的直接应用。
+</p><!-- l. 9 --><p class='indent'>     正是在这一背景下，人工智能方法开始从辅助工具逐步进入引力波数据分析的方法核心。本书围绕这一方法论转变展开，以作者参与和合作完成的系列研究为主线，同时结合领域内具有代表性的相关成果，力图呈现一个逻辑完整、层次递进且保持物理约束的引力波智能数据分析方法体系。
+     
+</p>
+     <h3 class='likesectionHead' id='_2'>  <a id='x3-3000'></a>本书的写作动机</h3>
+<!-- l. 13 --><p class='noindent'>本书的写作动机来自三个相互关联的观察。
+</p><!-- l. 15 --><p class='indent'>     其一，引力波数据分析正在从“单一模型试验”走向“系统方法体系”。早期机器学习研究多集中于用某个神经网络替代传统流程中的局部环节；近年的发展则更强调方法协同，包括人工智能方法与经典贝叶斯推断的结合、物理先验与数据驱动模型的统一，以及自动算法发现与人工专家设计之间的互补。因此，领域所需要的不只是技术罗列，而是能够说明问题来源、方法边界和适用条件的系统性框架。
+</p><!-- l. 17 --><p class='indent'>     其二，可解释性与物理可信度已经成为人工智能方法进入科学分析核心环节的前提。对于科学研究而言，单纯的性能提升并不足以建立信任；研究者还需要理解模型学习到哪些物理特征、模型判断在哪些条件下可靠，以及模型失败时会以何种方式表现。本书讨论感知层分析、特征重要性、遮罩实验和可检视算法结构等路径，试图回答“神经网络究竟学习到了什么物理信息”这一关键问题。
+</p><!-- l. 19 --><p class='indent'>     其三，空间引力波探测时代使计算可扩展性问题更加突出。LISA、太极和天琴等任务面临的多源叠加、高维强简并参数空间和全局拟合开销，将对现有方法提出远高于地面探测阶段的要求。在这一背景下，人工智能方法的角色不应只被理解为“加速器”，而应被放在未来数据分析体系的总体设计中加以考察。本书对这一趋势的梳理，既是对现阶段研究进展的总结，也希望为后续方法探索提供可检验的参照。
+     
+</p>
+     <h3 class='likesectionHead' id='_3'>  <a id='x3-4000'></a>全书结构</h3>
+<!-- l. 23 --><p class='noindent'>本书分为五个部分，构成一个逻辑递进的方法论体系。
+                                                                          
+
+                                                                          
+</p><!-- l. 25 --><p class='indent'>     <strong>第一部（第1–2章）</strong>奠定理论基础与问题背景：第1章从引力波天文学的发展历程出发，梳理探测技术演进及其带来的数据分析挑战；第2章介绍引力波信号、噪声与数据表征，为后续方法提供必要的物理与统计基础。
+</p><!-- l. 27 --><p class='indent'>     <strong>第二部（第3–4章）</strong>分析经典方法及其可扩展性边界：第3章介绍匹配滤波与贝叶斯推断的理论框架及其在实际分析中的应用；第4章从参数空间维度、多源信号重叠和非平稳噪声等方面，讨论经典方法在未来任务中的扩展瓶颈，为人工智能方法的引入提供问题背景。
+</p><!-- l. 29 --><p class='indent'>     <strong>第三部（第5–7章）</strong>系统介绍人工智能数据分析方法：第5章以 MF-CNN
+为核心，讨论机器学习在引力波信号识别中的应用及其可解释性；第6章介绍模拟推断（Simulation-Based Inference,
+SBI）方法，包括归一化流与连续归一化流等技术在参数估计中的应用；第7章介绍智能信号分离与去噪方法，从 WaveFormer
+到长时旋近信号去噪，讨论其在多信使天文学中的潜在应用。
+</p><!-- l. 31 --><p class='indent'>     <strong>第四部（第8–9章）</strong>讨论物理约束与智能方法融合：第8章介绍大语言模型驱动的自动算法发现（Evo-MCTS），探讨人工智能在科学算法设计中的潜在作用；第9章系统梳理物理驱动与数据驱动方法的融合路径，讨论“精确协同”而非“近似替代”的方法论框架。
+</p><!-- l. 33 --><p class='indent'>     <strong>第五部（第10–12章）</strong>面向空间任务挑战与发展展望：第10章以太极等空间引力波任务为例，分析空间引力波数据分析面临的核心挑战；第11章展望智能引力波天文学的发展趋势；第12章总结全书的方法论主线，并讨论若干开放问题。
+     
+</p>
+     <h3 class='likesectionHead' id='_4'>  <a id='x3-5000'></a>读者定位</h3>
+<!-- l. 37 --><p class='noindent'>本书面向三类读者。
+</p><!-- l. 39 --><p class='indent'>
+<strong>引力波天文学研究者</strong>：希望了解人工智能方法如何帮助缓解未来数据分析中的计算与建模挑战，以及这些方法在实际研究中的应用场景。建议重点阅读第3–4章（问题背景）以及第5–9章（具体方法）。
+</p><!-- l. 41 --><p class='indent'>     <strong>机器学习与人工智能研究者</strong>：希望了解引力波数据分析这一典型 AI for Science
+场景，以及物理约束如何提升模型性能与可解释性。建议重点阅读第1–2章（物理背景）以及第8–9章（物理与数据驱动融合）。
+</p><!-- l. 43 --><p class='indent'>     <strong>研究生与青年研究者</strong>：希望系统学习引力波数据分析与 AI 方法的整体框架，为进入相关研究方向做准备。建议按章节顺序阅读，并重点关注各章之间的方法联系与“本章小结”。
+</p><!-- l. 45 --><p class='indent'>     本书假设读者具备基本的概率统计与机器学习基础，但不要求具有引力波物理专业背景，第1–2章将提供必要的物理基础知识。
+</p><!-- l. 48 --><p class='noindent'><span class='fbox'><strong>本书在线开源版本</strong><span class='rm-lmr-10x-x-105'>：本书已在网络上公开发布，欢迎读者在线阅读、引用与交流讨论：</span>
+</span>
+<div class='center'>
+<!-- l. 61 --><p class='noindent'>
+</p><!-- l. 61 --><p class='noindent'><a class='url' href='https://iphysresearch.github.io/gwai-monograph/'><span class='ec-lmtt-10x-x-105'>https://iphysresearch.github.io/gwai-monograph/</span></a></p></div>
+
+<!-- l. 61 --><p class='noindent'><span class='rm-lmr-10x-x-105'>在线版本提供全文检索、章节导航与交叉引用等功能，并将根据勘误和后续研究进展适时修订。读者可通过该页面提交勘误意见或参与讨论。作者的相关演讲材料、代码仓库与学术博客亦可通过以下链接获取：</span>
+</p><!-- l. 61 --><p class='noindent'><span class='rm-lmr-10x-x-105'>     演讲材料：</span><a class='url' href='https://slides.com/iphysresearch'><span class='ec-lmtt-10x-x-105'>https://slides.com/iphysresearch</span></a> <br class='newline' /><span class='rm-lmr-10x-x-105'>代码：</span><a class='url' href='https://github.com/iphysresearch'><span class='ec-lmtt-10x-x-105'>https://github.com/iphysresearch</span></a> <br class='newline' /><span class='rm-lmr-10x-x-105'>博客：</span><a class='url' href='https://iphysresearch.github.io/blog/'><span class='ec-lmtt-10x-x-105'>https://iphysresearch.github.io/blog/</span></a>                                
+     
+                                                                          
+
+                                                                          
+</p>
+     <h3 class='likesectionHead' id='_5'> <a id='x3-6000'></a>代表性研究成果</h3>
+<!-- l. 65 --><p class='noindent'>本书的部分核心内容来自作者在2020年以来参与和合作完成的系列研究工作。以下列出与本书主题密切相关的代表性成果，涵盖引力波信号识别、参数估计、去噪与自动算法发现等方向：
+      </p><dl class='enumerate-enumitem'><dt class='enumerate-enumitem'>
+   1. </dt><dd class='enumerate-enumitem'><strong>Wang  H.</strong> et  al.,  “Gravitational  wave  signal  recognition  of  LIGO
+      data  by  deep  learning,’’  <i>Physical  Review  D</i>,  101,  104003  (2020).
+      [<strong>MF-CNN</strong>：将物理先验与卷积神经网络结合，用于真实 LIGO O1/O2 数据中的引力波信号识别]
+      </dd><dt class='enumerate-enumitem'>
+   2. </dt><dd class='enumerate-enumitem'><strong>Wang                                                                    H.,
+      Cao Z.</strong> et al., “Sampling with prior knowledge for high-dimensional
+      gravitational wave data analysis,’’ <i>Big Data Mining and Analytics</i>, 5,
+      53–63 (2022). [<strong>先验知识采样</strong>：将物理先验转化为高维参数空间中的训练数据分布设计]
+      </dd><dt class='enumerate-enumitem'>
+   3. </dt><dd class='enumerate-enumitem'><strong>Wang   H.</strong>  et   al.,   “WaveFormer:   Transformer-based   denoising
+      method  for  gravitational  wave  data,’’  <i>Machine  Learning:  Science
+      and  Technology</i>,  5,  015046  (2024).  [<strong>WaveFormer</strong>：基于  Transformer
+      架构的引力波去噪方法]
+      </dd><dt class='enumerate-enumitem'>
+   4. </dt><dd class='enumerate-enumitem'><strong>Liang B., Du M., Wang H.</strong> et al., “Rapid parameter estimation
+      for merging massive black hole binaries using continuous normalizing
+      flows,’’ <i>Machine Learning: Science and Technology</i>, 5, 045040 (2024).
+      [<strong>CNF-MBHB</strong>：基于连续归一化流的空间引力波参数估计方法]
+      </dd><dt class='enumerate-enumitem'>
+   5. </dt><dd class='enumerate-enumitem'><strong>Wang   H.,   Zeng   L.</strong>,   “Automated   algorithmic   discovery   for
+      gravitational-wave  detection  via  LLM-informed  evolutionary  Monte
+      Carlo   tree   search,’’   arXiv:2508.03661   (2025,   under   review).
+                                                                          
+
+                                                                          
+      [<strong>Evo-MCTS</strong>：结合大语言模型与进化 Monte Carlo Tree Search 的自动算法发现框架]
+      </dd><dt class='enumerate-enumitem'>
+   6. </dt><dd class='enumerate-enumitem'><strong>Liang B., Wang H.</strong>, “Recent advances in simulation-based inference
+      for gravitational wave data analysis,’’ <i>Astronomical Techniques and
+      Instruments</i>, 3, 93–111 (2026). [<strong>SBI综述</strong>：总结模拟推断方法在引力波数据分析中的应用进展]</dd></dl>
+
+<!-- l. 87 --><p class='indent'>     上述作者参与和合作完成的相关工作发表于 <i>Physical Review D</i>、<i>Machine Learning: Science and
+Technology</i>、<i>Big Data Mining and Analytics</i>、<i>Astronomical Techniques
+and Instruments</i> 等期刊，并在 LVK 合作组、KAGRA 相关研讨会及 AI for Science
+学术会议等场合进行了报告与交流。相关论文列表见第1章表 <a href='book_htmlch1.html#_22'>1.1<!-- tex4ht:ref: tab:original_contributions  --></a>。
+     
+</p>
+     <h3 class='likesectionHead' id='_6'>  <a id='x3-7000'></a>致谢</h3>
+<!-- l. 91 --><p class='noindent'>本书相关研究工作的开展得到了曹周键教授的重要支持与指导，在此谨致谢意。
+</p><!-- l. 93 --><p class='indent'>     感谢北京师范大学、中国科学院理论物理研究所、鹏城国家实验室、中国科学院大学国际理论物理中心（亚太地区）、中国科学院力学研究所、东北大学等单位提供的研究平台与支持。
+</p><!-- l. 95 --><p class='indent'>     引力波天文学与人工智能的交叉研究仍处于快速发展阶段，书中难免存在疏漏与不足，恳请读者批评指正。
+</p>
+                                                                          <div class='flushright'>
+<!-- l. 98 --><p class='noindent'>
+ 王赫<br />
+2026年于北京</p></div>
+<!-- l. 1 --><div class='crosslinks'><p class='noindent'>[<a href='book_htmlli3.html'>next</a>] [<a href='book_htmlli1.html'>prev</a>] [<a href='book_htmlli1.html#tailbook_htmlli1.html'>prev-tail</a>] [<a href='book_htmlli2.html'>front</a>] [<a href='book_html.html#book_htmlli2.html'>up</a>] </p></div>
+<!-- l. 1 --><p class='indent'>     <a id='tailbook_htmlli2.html'></a>  </p> 
+<footer class='site-footer'><p class='foot-main'>引力波数据分析中的人工智能方法 · 王赫 · 在线开源版（初稿）</p><p class='foot-sub'>本书持续更新中，欢迎通过 <a href='https://github.com/iphysresearch/gwai-monograph/issues'>GitHub Issues</a> 提交勘误与建议。</p><p class='foot-sub'>版权归作者所有；转载或引用请注明出处。</p></footer> 
+ 
+</p></div></html>

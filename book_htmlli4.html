@@ -1,0 +1,44 @@
+<!DOCTYPE html> 
+<html lang='en-US' xml:lang='en-US'> 
+<head><title>编后</title> 
+<meta charset='utf-8' /> 
+<meta content='TeX4ht (https://tug.org/tex4ht/)' name='generator' /> 
+<meta content='width=device-width,initial-scale=1' name='viewport' /> 
+<link href='book_html.css' rel='stylesheet' type='text/css' /> 
+<meta content='book_html.tex' name='src' /> 
+<script>window.MathJax = { tex: { tags: "ams", }, }; </script> 
+<script async='async' id='MathJax-script' src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js' type='text/javascript'></script>  
+<link href='assets/style.css' rel='stylesheet' type='text/css' /> 
+</head><header class='site-header'><div class='site-wrap'><a class='site-title' href='index.html'> 
+引力波数据分析中的人工智能方法</a> <span class='site-sub'>在线开源版</span></div></header> 
+<div class='content'> 
+ <!-- l. 1067 --><div class='crosslinks'><p class='noindent'><span class='rm-lmr-10x-x-105'>记</span><a href='book_htmlli5.html'><span class='rm-lmr-10x-x-105'>next</span></a><span class='rm-lmr-10x-x-105'>] [</span><a href='book_htmlch12.html'><span class='rm-lmr-10x-x-105'>prev</span></a><span class='rm-lmr-10x-x-105'>] [</span><a href='book_htmlch12.html#tailbook_htmlch12.html'><span class='rm-lmr-10x-x-105'>prev-tail</span></a><span class='rm-lmr-10x-x-105'>] [</span><a href='#tailbook_htmlli4.html'><span class='rm-lmr-10x-x-105'>tail</span></a><span class='rm-lmr-10x-x-105'>] [</span><a href='book_htmlpa5.html#book_htmlli4.html'><span class='rm-lmr-10x-x-105'>up</span></a><span class='rm-lmr-10x-x-105'>] </span></p></div>
+    <h2 class='likechapterHead' id='_222'>  <a id='x22-295000'></a><span class='rm-lmr-10x-x-105'>编后记</span></h2>
+<!-- l. 1070 --><p class='noindent'><span class='rm-lmr-10x-x-105'>本书的写作历程，本身就是一次关于“方法论演进”的亲历记录。</span>
+</p><!-- l. 1072 --><p class='indent'>    <span class='rm-lmr-10x-x-105'>2019年，当我开始将深度学习方法应用于真实LIGO-Virgo数据时，这一方向在引力波领域还属于探索性工作。彼时的核心问题是：神经网络能否在真实探测器噪声中可靠地识别引力波信号？MF-CNN的设计——将匹配滤波的三步操作实现为可学习的卷积单元——是对这一问题的一次系统性回答。当网络在O1和O2数据上识别出多例已确认引力波事件时，我意识到这不仅是一个技术结果，更是一个方法论信号：物理先验与数据驱动的结合，比单纯的端到端学习更具鲁棒性。这一认识成为此后工作的出发点。</span>
+</p><!-- l. 1074 --><p class='indent'>    <span class='rm-lmr-10x-x-105'>此后数年，研究方向沿着两条相互交织的线索延伸。一条是方法的深化：从CNN到归一化流，从离散流到连续归一化流，从单一模型到混合推断，每一步都在回答“如何在保持物理一致性的同时实现更高的计算效率”这一核心问题。另一条是应用的拓展：从地面探测器到空间探测器，从双黑洞并合到极端质量比旋入，从信号识别到参数估计再到去噪，每一步都在回答“如何将方法论创新转化为具体的科学能力”。这两条线索的交织，构成了本书的主要内容。</span>
+</p><!-- l. 1076 --><p class='indent'>    <span class='rm-lmr-10x-x-105'>Evo-MCTS的工作是这一历程中最出乎意料的转折。当LLM引导的进化搜索在MLGWSC-1基准上发现优于多个人工设计基线的候选算法时，我更加清楚地感受到，“AI驱动科学发现”已经可以在受控基准和可验证任务中形成具体的研究问题。更重要的是，这一候选算法是可解释的——算法由标准信号处理模块组成，物理学家可以逐行审查其逻辑。可解释性与高性能的结合，是这一工作最令我满意的地方。这也让我意识到，引力波数据分析的独特价值不仅在于科学目标本身，更在于它为人工智能方法论的发展提供了一个理想的试验场：物理约束清晰、评估标准客观、可解释性要求严格。</span>
+</p><!-- l. 1078 --><p class='indent'>    <strong>对未来研究者的建议</strong><span class='rm-lmr-10x-x-105'>。引力波AI方法论是一个快速发展的领域，进入这一领域的研究者需要同时具备引力波物理的基础知识和机器学习的实践能力。我的建议是：首先深入理解匹配滤波和贝叶斯推断的物理基础（第3章），因为这是评判任何AI方法是否“物理上合理”的参照系；其次系统学习归一化流和SBI的理论框架（第6章），这是当前引力波参数估计最活跃的方法论前沿；最后关注可解释性和验证框架（第5、9章），因为在严肃科学应用中，方法的可信度与性能同等重要。</span>
+</p><!-- l. 1080 --><p class='indent'>    <span class='rm-lmr-10x-x-105'>本书已在网络上开源发布，欢迎在线阅读、搜索和评论：</span> </p>
+<div class='center'>
+<!-- l. 1081 --><p class='noindent'>
+</p><!-- l. 1082 --><p class='noindent'><a class='url' href='https://iphysresearch.github.io/gwai-monograph/'><span class='ec-lmtt-10x-x-105'>https://iphysresearch.github.io/gwai-monograph/</span></a></p></div>
+
+<!-- l. 1084 --><p class='noindent'><span class='rm-lmr-10x-x-105'>相关代码仓库、演讲材料和学术博客可通过以下链接获取：</span><a class='url' href='https://github.com/iphysresearch'><span class='ec-lmtt-10x-x-105'>https://github.com/iphysresearch</span></a><span class='rm-lmr-10x-x-105'>（代码）、</span><a class='url' href='https://slides.com/iphysresearch'><span class='ec-lmtt-10x-x-105'>https://slides.com/iphysresearch</span></a><span class='rm-lmr-10x-x-105'>（演讲）、</span><a class='url' href='https://iphysresearch.github.io/blog/'><span class='ec-lmtt-10x-x-105'>https://iphysresearch.github.io/blog/</span></a><span class='rm-lmr-10x-x-105'>（博客）。欢迎读者通过在线版本提交勘误、参与讨论，共同推动引力波AI方法论的发展。</span>
+</p><!-- l. 1086 --><p class='indent'>    <strong>关于本书的局限</strong><span class='rm-lmr-10x-x-105'>。本书记录的是2020–2025年间的方法论进展，不可避免地存在时效性局限。部分工作（如Evo-MCTS）在本书写作时仍处于审稿阶段，最终发表版本可能与本书描述有所差异。此外，本书侧重于方法论的系统梳理，对每项工作的实验细节和代码实现的介绍相对简略，有兴趣深入了解的读者可参阅原始论文。</span>
+</p><!-- l. 1088 --><p class='indent'>    <span class='rm-lmr-10x-x-105'>引力波天文学是一个年轻的领域，AI方法在其中的应用更是方兴未艾。本书所呈现的，是这一交叉领域在特定时间节点上的方法论快照。随着空间引力波探测器的建设推进和AI技术的持续演进，这一快照将很快被新的进展所超越。但方法论的演进逻辑——从黑箱到可解释、从近似替代到精确协同、从单一方法到自动发现——将持续指引这一领域的前行方向。</span>
+</p><!-- l. 1090 --><p class='indent'>
+<span class='rm-lmr-10x-x-105'>感谢曹周键教授对本书相关研究工作的支持与指导。感谢北京师范大学、中国科学院理论物理研究所、鹏城国家实验室、中国科学院大学国际理论物理中心（亚太地区）、中国科学院力学研究所、东北大学等单位提供的研究平台与支持。</span>
+</p>
+                                                                          <div class='flushright'>
+<!-- l. 1093 --><p class='noindent'>
+ <span class='rm-lmr-10x-x-105'>王赫</span><br />
+<span class='rm-lmr-10x-x-105'>2026年于北京</span></p></div>
+                                                                          
+
+                                                                          
+    <!-- l. 1 --><div class='crosslinks'><p class='noindent'><span class='rm-lmr-10x-x-105'>[</span><a href='book_htmlli5.html'><span class='rm-lmr-10x-x-105'>next</span></a><span class='rm-lmr-10x-x-105'>] [</span><a href='book_htmlch12.html'><span class='rm-lmr-10x-x-105'>prev</span></a><span class='rm-lmr-10x-x-105'>] [</span><a href='book_htmlch12.html#tailbook_htmlch12.html'><span class='rm-lmr-10x-x-105'>prev-tail</span></a><span class='rm-lmr-10x-x-105'>] [</span><a href='book_htmlli4.html'><span class='rm-lmr-10x-x-105'>front</span></a><span class='rm-lmr-10x-x-105'>] [</span><a href='book_htmlpa5.html#book_htmlli4.html'><span class='rm-lmr-10x-x-105'>up</span></a><span class='rm-lmr-10x-x-105'>] </span></p></div>
+<!-- l. 1 --><p class='indent'>    <a id='tailbook_htmlli4.html'></a> </p> 
+<footer class='site-footer'><p class='foot-main'>引力波数据分析中的人工智能方法 · 王赫 · 在线开源版（初稿）</p><p class='foot-sub'>本书持续更新中，欢迎通过 <a href='https://github.com/iphysresearch/gwai-monograph/issues'>GitHub Issues</a> 提交勘误与建议。</p><p class='foot-sub'>版权归作者所有；转载或引用请注明出处。</p></footer> 
+ 
+</div></html>
